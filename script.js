@@ -1,12 +1,4 @@
 
-try{
-    const user = window.Telegram.WebApp.initDataUnsafe.user;
-    console.log(user);
-    document.getElementById("test").innerHTML = user;
-} else{
-}
-
-
 try {
     const user = window.Telegram.WebApp.initDataUnsafe.user;
     console.log(user);
