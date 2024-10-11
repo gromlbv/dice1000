@@ -1,5 +1,79 @@
+*{
+    font-family: "Inter", system-ui;
+}
 body{
     width: 100%;
     margin: 0;
     padding: 0;
+    overflow: hidden;
+}
+
+/* FONTS */
+h1{
+    margin: 0;
+    color: #575757;
+    text-align: center;
+    font-size: 32px;
+    font-weight: 600;
+}
+p{
+    margin: 0;
+}
+.wrapper{
+    min-height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+flex{
+    display: flex;
+    flex-direction: column;
+}
+.loading-flex{
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    width: 306px;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+.loading-flex > img{
+    width: 60%;
+    border-radius: 50%;
+}
+.loading-flex > .text-flex{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    align-self: stretch;
+
+    color: #575757;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.tip-wrapper {
+    position: absolute;
+    bottom: 32px;
+    left: 32px;
+    width: calc(100% - 96px);
+    display: flex;
+    align-items: center;
+    padding: 12px 14px; 
+    justify-content: center;
+    gap: 12px;
+    
+    border-radius: 18px;
+    background: #E3EAFF;
+
+    color: #4579FF;
+    font-size: 16px;
+    font-weight: 500;
 }
