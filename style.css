@@ -1,13 +1,62 @@
 *{
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
     font-family: "Inter", system-ui;
+}
+html,body{
+    overscroll-behavior: none;
+    touch-action: manipulation;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+    -webkit-overflow-scrolling: touch;
 }
 body{
     width: 100%;
     margin: 0;
     padding: 0;
-    overflow: hidden;
     background-color: white;
 }
+img {
+    -webkit-user-drag: none; /* Отключение перетаскивания изображения в WebKit браузерах */
+    user-drag: none; /* Отключение перетаскивания изображения в других браузерах */
+    -webkit-touch-callout: none; /* Отключение контекстного меню при долгом нажатии */
+    pointer-events: none; /* Отключение всех событий для изображения */
+}
+
+button, a {
+    -webkit-tap-highlight-color: transparent; /* Отключает вспышку при нажатии */
+}
+.button:focus,
+.button.active {
+    background-color: rgba(69, 121, 255, 0.6);
+    transform: scale(0.98);
+}
+
+.fade-in1 {
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out; /* Самая медленная анимация */
+}
+
+.fade-in2 {
+    opacity: 0;
+    transition: opacity 1.2s ease-in-out; /* Средняя скорость анимации */
+}
+
+.fade-in3 {
+    opacity: 0;
+    transition: opacity 1.8s ease-in-out; /* Самая быстрая анимация */
+}
+
+.fade-in1.show, .fade-in2.show, .fade-in3.show {
+    opacity: 1;
+}
+
+
 
 /* FONTS */
 h1{
@@ -94,24 +143,7 @@ flex{
     width: calc(100% - 64px);
 }
 
-.fade-in1 {
-    opacity: 0;
-    transition: opacity 0.5s ease-in-out; /* Самая медленная анимация */
-}
 
-.fade-in2 {
-    opacity: 0;
-    transition: opacity 1.2s ease-in-out; /* Средняя скорость анимации */
-}
-
-.fade-in3 {
-    opacity: 0;
-    transition: opacity 1.8s ease-in-out; /* Самая быстрая анимация */
-}
-
-.fade-in1.show, .fade-in2.show, .fade-in3.show {
-    opacity: 1;
-}
 
 .primary{
     font-size: 18px;
@@ -184,6 +216,6 @@ flex{
 }
 #dice-main6{
     width: 60%;
+    /* transform: rotate(120deg) scaleY(-1); */
     filter:  drop-shadow(0 44px 44px rgb(249, 250, 255, 100)) drop-shadow(0px 4px 158px rgb(249, 250, 255))drop-shadow(0px 4px 158px rgb(249, 250, 255));
-
 }

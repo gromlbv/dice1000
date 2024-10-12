@@ -43,8 +43,6 @@ window.addEventListener("load", function() {
     });
 });
 
-
-
 const tg = window?.Telegram?.WebApp
 console.log(tg.initDataUnsafe.user)
 document.addEventListener("DOMContentLoaded", () => {
@@ -56,4 +54,31 @@ document.addEventListener("DOMContentLoaded", () => {
         // Установите цвет фона
         tg.setBackgroundColor("#FFFFFF"); // Задайте ваш цвет
     }
+});
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    const buttons = document.querySelectorAll('button');
+
+    buttons.forEach(button => {
+        button.addEventListener('touchstart', () => {
+            button.classList.add('active');
+        });
+
+        button.addEventListener('touchend', () => {
+            button.classList.remove('active');
+        });
+
+        button.addEventListener('mousedown', () => {
+            button.classList.add('active');
+        });
+
+        button.addEventListener('mouseup', () => {
+            button.classList.remove('active');
+        });
+
+        button.addEventListener('mouseleave', () => {
+            button.classList.remove('active');
+        });
+    });
 });
