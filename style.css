@@ -91,14 +91,34 @@ flex{
     position: absolute;
     bottom: 32px;
     left: 32px;
-    width: calc(100% - 96px);
+    width: calc(100% - 64px);
 }
+
+.fade-in1 {
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out; /* Самая медленная анимация */
+}
+
+.fade-in2 {
+    opacity: 0;
+    transition: opacity 1.2s ease-in-out; /* Средняя скорость анимации */
+}
+
+.fade-in3 {
+    opacity: 0;
+    transition: opacity 1.8s ease-in-out; /* Самая быстрая анимация */
+}
+
+.fade-in1.show, .fade-in2.show, .fade-in3.show {
+    opacity: 1;
+}
+
 .primary{
     font-size: 18px;
     font-weight: 600;
 
     color: #FFF;
-    background: #4579FF;
+    background: #0047ff;
 }
 .secondary{
     color: #4579FF;
@@ -119,19 +139,29 @@ flex{
     filter: blur(1.5px);
 }
 #dice-loading2{
-    padding-right: 105px;
-    padding-top: 80px;
+    bottom: 92%;
+    left: 22vw;
     width: 60px;
     height: 61px;
 
     filter: blur(3px);
 }
 #dice-loading1{
-    padding-right: 275px;
+    left: -12vw;
     width: 61px;
     height: 61px;
 
     filter: blur(2px);
+}
+#dice-main5{
+    width: 85px;
+    height: 85px;
+    transform: rotate(-10.945deg);
+
+    right: -6%;
+    bottom: 38%;
+
+    filter: blur(0.8px) drop-shadow(0 7mm 2mm rgba(0, 0, 0, 0.18));
 }
 .fancy-create{
     display: flex;
@@ -144,9 +174,16 @@ flex{
     background-color: #E3EAFF;
     border-radius: 24px;
 }
-.fancy-create > img{
+#dice-main1{
+    width: 61px;
+    height: 61px;
+    left: 0;
+    top: 21%;
+    filter: blur(2px);
+    filter: drop-shadow(0px 19px 14.8px 0px rgba(0, 0, 0, 0.07));
+}
+#dice-main6{
     width: 60%;
-    -webkit-filter: 0px 4px 43.7px 16px rgba(249, 250, 255, 0.45), 0px 4px 98.9px 16px #F9FAFF;;
-    filter: 0px 4px 43.7px 16px rgba(249, 250, 255, 0.45), 0px 4px 98.9px 16px #F9FAFF;;
-    backdrop-filter: blur(26.899999618530273px);
+    filter:  drop-shadow(0 44px 44px rgb(249, 250, 255, 100)) drop-shadow(0px 4px 158px rgb(249, 250, 255))drop-shadow(0px 4px 158px rgb(249, 250, 255));
+
 }

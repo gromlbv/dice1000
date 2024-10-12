@@ -25,6 +25,26 @@
 //    console.log("Пользователь не имеет фото профиля");
 //    document.getElementById("profile-pic").src = "default-profile-pic.png"; // Укажите путь к изображению по умолчанию
 //}
+window.addEventListener("load", function() {
+    const fadeIn1Elements = document.querySelectorAll(".fade-in1");
+    const fadeIn2Elements = document.querySelectorAll(".fade-in2");
+    const fadeIn3Elements = document.querySelectorAll(".fade-in3");
+
+    fadeIn1Elements.forEach(function(element) {
+        element.classList.add("show");
+    });
+
+    fadeIn2Elements.forEach(function(element) {
+        element.classList.add("show");
+    });
+
+    fadeIn3Elements.forEach(function(element) {
+        element.classList.add("show");
+    });
+});
+
+
+
 const tg = window?.Telegram?.WebApp
 console.log(tg.initDataUnsafe.user)
 document.addEventListener("DOMContentLoaded", () => {
