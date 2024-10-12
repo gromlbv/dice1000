@@ -5,6 +5,7 @@
     user-select: none;
 
     font-family: "Inter", system-ui;
+    z-index: 5;
 }
 html,body{
     overscroll-behavior: none;
@@ -22,39 +23,28 @@ body{
     background-color: white;
 }
 img {
-    -webkit-user-drag: none; /* Отключение перетаскивания изображения в WebKit браузерах */
-    user-drag: none; /* Отключение перетаскивания изображения в других браузерах */
-    -webkit-touch-callout: none; /* Отключение контекстного меню при долгом нажатии */
-    pointer-events: none; /* Отключение всех событий для изображения */
+    -webkit-user-drag: none;
+    user-drag: none;
+    -webkit-touch-callout: none;
+    pointer-events: none;
 }
 
 button, a {
-    -webkit-tap-highlight-color: transparent; /* Отключает вспышку при нажатии */
+    -webkit-tap-highlight-color: transparent;
 }
-.button:focus,
-.button.active {
-    background-color: rgba(69, 121, 255, 0.6);
-    transform: scale(0.98);
+button {
+    transition: transform 0.2s ease;
 }
 
-.fade-in1 {
+.fade-in {
     opacity: 0;
-    transition: opacity 0.5s ease-in-out; /* Самая медленная анимация */
+    transition: opacity 0.7s ease-in;
 }
 
-.fade-in2 {
-    opacity: 0;
-    transition: opacity 1.2s ease-in-out; /* Средняя скорость анимации */
-}
-
-.fade-in3 {
-    opacity: 0;
-    transition: opacity 1.8s ease-in-out; /* Самая быстрая анимация */
-}
-
-.fade-in1.show, .fade-in2.show, .fade-in3.show {
+.fade-in.show {
     opacity: 1;
 }
+
 
 
 
@@ -185,16 +175,7 @@ flex{
 
     filter: blur(2px);
 }
-#dice-main5{
-    width: 85px;
-    height: 85px;
-    transform: rotate(-10.945deg);
 
-    right: -6%;
-    bottom: 38%;
-
-    filter: blur(0.8px) drop-shadow(0 7mm 2mm rgba(0, 0, 0, 0.18));
-}
 .fancy-create{
     display: flex;
     flex-direction: column;
@@ -205,6 +186,16 @@ flex{
 
     background-color: #E3EAFF;
     border-radius: 24px;
+}
+#dice-main5{
+    width: 85px;
+    height: 85px;
+    transform: rotate(-10.945deg);
+
+    right: -6%;
+    bottom: 38%;
+
+    filter: blur(0.8px) drop-shadow(0 7mm 2mm rgba(0, 0, 0, 0.18));
 }
 #dice-main1{
     width: 61px;
@@ -218,4 +209,14 @@ flex{
     width: 60%;
     /* transform: rotate(120deg) scaleY(-1); */
     filter:  drop-shadow(0 44px 44px rgb(249, 250, 255, 100)) drop-shadow(0px 4px 158px rgb(249, 250, 255))drop-shadow(0px 4px 158px rgb(249, 250, 255));
+}
+
+.interactive{
+    transition: transform 0.1s ease;
+    z-index: 10;
+    pointer-events: all;
+}
+
+.interactive.active {
+    transition: transform 0.2s ease;
 }

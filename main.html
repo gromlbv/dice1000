@@ -20,28 +20,29 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="wrapper fade-in1">
-        <div class="middle-flex fade-in2">
+    <div class="wrapper fade-in priority-1">
+        <div class="middle-flex fade-in priority-2">
             <div class="fancy-create">
-                <img id="dice-main1" class="dice-absolute" src="source/dices/1.png">
-                <img id="dice-main6" class="" src="source/dices/6.png">
-                <img id="dice-main5" class="dice-absolute" src="source/dices/5.png">
+                <img id="dice-main1" class="dice-absolute interactive" src="source/dices/1.png">
+                <img id="dice-main6" class="interactive" src="source/dices/6.png">
+                <img id="dice-main5" class="dice-absolute interactive" src="source/dices/5.png">
                 <button class="primary">Создать игру</button>
             </div>
-            <button class="secondary fade-in2">
+            <button class="secondary fade-in priority-2">
                 <img src="source/icons/gift.svg">
                 Бесплатные монеты
             </button>
-            <button class="secondary fade-in3">
+            <button class="secondary fade-in priority-3">
                 <img src="source/icons/people.svg">
                 Таблица лидеров
             </button>
         </div>
-        <button class="secondary absolute-bottom fade-in3">
+        <button class="secondary absolute-bottom fade-in priority-3">
             <img src="source/icons/question.svg">
             Правила игры
         </button>
     </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

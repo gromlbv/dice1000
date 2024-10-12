@@ -26,59 +26,64 @@
 //    document.getElementById("profile-pic").src = "default-profile-pic.png"; // Укажите путь к изображению по умолчанию
 //}
 window.addEventListener("load", function() {
-    const fadeIn1Elements = document.querySelectorAll(".fade-in1");
-    const fadeIn2Elements = document.querySelectorAll(".fade-in2");
-    const fadeIn3Elements = document.querySelectorAll(".fade-in3");
+    const fadeInElements = document.querySelectorAll(".fade-in");
 
-    fadeIn1Elements.forEach(function(element) {
-        element.classList.add("show");
-    });
-
-    fadeIn2Elements.forEach(function(element) {
-        element.classList.add("show");
-    });
-
-    fadeIn3Elements.forEach(function(element) {
-        element.classList.add("show");
-    });
-});
-
-const tg = window?.Telegram?.WebApp
-console.log(tg.initDataUnsafe.user)
-document.addEventListener("DOMContentLoaded", () => {
-    // Убедитесь, что Telegram WebApp инициализирован
-    if (tg) {
-        // Установите цвет заголовка
-        tg.setHeaderColor("#1E90FF"); // Задайте ваш цвет
-
-        // Установите цвет фона
-        tg.setBackgroundColor("#FFFFFF"); // Задайте ваш цвет
+    function addShowClass(elements, delay) {
+        elements.forEach(function(element, index) {
+            setTimeout(function() {
+                element.classList.add("show");
+            }, delay * index);
+        });
     }
+
+    addShowClass(fadeInElements, 300);
 });
 
 
+
+let clicked = false;
+
+$("button").on("mousedown touchstart", function() {
+    $(this).css("transform", "scale(0.95)");
+    $(this).css("border-radius", "100px");
+});
+$("button").on("mouseup mouseleave touchend", function() {
+    $(this).css("transform", "scale(1)");
+    $(this).css("border-radius", "25px");
+});
 document.addEventListener('DOMContentLoaded', () => {
-    const buttons = document.querySelectorAll('button');
+    const interactives = document.querySelectorAll('.interactive');
 
-    buttons.forEach(button => {
-        button.addEventListener('touchstart', () => {
-            button.classList.add('active');
+    interactives.forEach(interactive => {
+        interactive.addEventListener('touchstart', () => {
+            addActiveState(interactive);
         });
 
-        button.addEventListener('touchend', () => {
-            button.classList.remove('active');
+        interactive.addEventListener('touchend', () => {
+            removeActiveState(interactive);
         });
 
-        button.addEventListener('mousedown', () => {
-            button.classList.add('active');
+        interactive.addEventListener('mousedown', () => {
+            addActiveState(interactive);
         });
 
-        button.addEventListener('mouseup', () => {
-            button.classList.remove('active');
+        interactive.addEventListener('mouseup', () => {
+            removeActiveState(interactive);
         });
 
-        button.addEventListener('mouseleave', () => {
-            button.classList.remove('active');
+        interactive.addEventListener('mouseleave', () => {
+            removeActiveState(interactive);
         });
     });
 });
+
+function addActiveState(element) {
+    const randomAngle = Math.floor(Math.random() * 31) - 15;
+    element.style.transform = `scale(0.95) rotate(${randomAngle}deg)`;
+    element.classList.add('active');
+}
+
+function removeActiveState(element) {
+    element.style.transform = 'scale(1) rotate(0deg)';
+    element.classList.remove('active');
+}

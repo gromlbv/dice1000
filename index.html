@@ -14,12 +14,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="wrapper">
-        <img id="dice-loading2" class="dice-absolute" src="source/dices/2.png">
+    <div class="wrapper fade-in priority-1">
+        <img id="dice-loading2" class="dice-absolute fade-in priority-2 interactive" src="source/dices/2.png">
         <div class="loading-flex">
-            <img src="source/profile-pic.png">
-            <img id="dice-loading1" class="dice-absolute" src="source/dices/1.png">
-            <img id="dice-loading5" class="dice-absolute" src="source/dices/5.png">
+            <img src="source/profile-pic.png" class="interactive">
+            <img id="dice-loading1" class="dice-absolute interactive" src="source/dices/1.png">
+            <img id="dice-loading5" class="dice-absolute interactive" src="source/dices/5.png">
             <flex class="text-flex">
                 <h1 id="test">Добро пожаловать</h1>
                 
@@ -35,7 +35,7 @@
                 <p>Загружаем ваш профиль для игры в 1000 Dice...</p>
             </flex>
         </div>
-        <div onclick="Loaded()" class="secondary absolute-bottom" style="width: calc(100% - 96px);">
+        <div onclick="Loaded()" class="secondary absolute-bottom fade-in priority-3 interactive" style="width: calc(100% - 96px);">
             <img src="source/icons/shovel.svg">
             Заходи к нам каждый день и получай бесплатные фишки
         </div>
