@@ -71,7 +71,7 @@ flex{
     font-weight: 400;
 }
 
-button.primary, button.secondary{
+.primary, .secondary{
     display: flex;
     align-items: center;
     justify-content: center;
@@ -87,26 +87,52 @@ button.primary, button.secondary{
     font-size: 16px;
     font-weight: 500;
 }
-button.absolute-bottom{
+.absolute-bottom{
     position: absolute;
     bottom: 32px;
     left: 32px;
     width: calc(100% - 96px);
 }
-button.primary{
+.primary{
     font-size: 18px;
     font-weight: 600;
 
     color: #FFF;
     background: #4579FF;
 }
-button.secondary{
+.secondary{
     color: #4579FF;
     background: #E3EAFF;
-    
 }
 
+.dice-absolute{
+    position: absolute;
+    z-index: 1000;
+}
+#dice-loading5{
+    padding-top: 95px;
+    padding-left: 170px;
+    width: 132.185px;
+    height: 132.185px;
+    transform: rotate(-10.945deg);
+    
+    filter: blur(1.5px);
+}
+#dice-loading2{
+    padding-right: 105px;
+    padding-top: 80px;
+    width: 60px;
+    height: 61px;
 
+    filter: blur(3px);
+}
+#dice-loading1{
+    padding-right: 275px;
+    width: 61px;
+    height: 61px;
+
+    filter: blur(2px);
+}
 .fancy-create{
     display: flex;
     flex-direction: column;
