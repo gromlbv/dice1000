@@ -70,10 +70,6 @@ document.addEventListener('DOMContentLoaded', () => {
         interactive.addEventListener('mouseup', () => {
             removeActiveState(interactive);
         });
-
-        interactive.addEventListener('mouseleave', () => {
-            removeActiveState(interactive);
-        });
     });
 });
 

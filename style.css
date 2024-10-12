@@ -238,3 +238,70 @@ flex{
 .interactive.active {
     transition: transform 0.2s ease;
 }
+
+.absolute-top{
+    position: absolute;
+    padding: 12px 32px;
+
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    height: 64px;
+    width: calc(100% - 32px);
+}
+.skins-btn{
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    gap: -24px;
+    background-color: transparent;
+    border: none;
+    flex: 1 0 0;
+
+    color: #4579FF;
+    font-size: 14px;
+    font-weight: 600;
+}
+.skins-btn > img{
+    width: 40px;
+    height: 39px;
+    flex-shrink: 0;
+}
+.skins-btn > div{ 
+    display: inline-flex;
+    margin-left: -20px;
+    padding: 4px 12px 4px 24px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    z-index: 4;
+
+    border-radius: 30px;
+    background: #ECF1FF;
+}
+.header-user{
+    height: 100%;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 14px;
+    flex: 1 0 0;
+}
+.header-user > img{
+    height: 100%;
+    border-radius: 50%;
+    width: auto;
+    object-fit: contain;
+}
+.data-username{
+    color: #000;
+    text-align: right;
+    font-size: 16px;
+    font-weight: 600;
+}
+.data-balance{
+    color: #4579FF;
+    text-align: right;
+    font-size: 14px;
+    font-weight: 600;
+}
