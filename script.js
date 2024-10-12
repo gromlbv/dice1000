@@ -25,22 +25,14 @@
 //    console.log("Пользователь не имеет фото профиля");
 //    document.getElementById("profile-pic").src = "default-profile-pic.png"; // Укажите путь к изображению по умолчанию
 //}
+console.log(window.Telegram.WebApp.initDataUnsafe.user)
+document.addEventListener("DOMContentLoaded", () => {
+    // Убедитесь, что Telegram WebApp инициализирован
+    if (window.Telegram && window.Telegram.WebApp) {
+        // Установите цвет заголовка
+        window.Telegram.WebApp.setHeaderColor("#1E90FF"); // Задайте ваш цвет
 
-if (window.Telegram && window.Telegram.WebApp) {
-    document.getElementById("test").innerHTML = "Работает!";
-    const user = window.Telegram.WebApp.initDataUnsafe.user;
-    console.log(user);
-
-} else {
-    document.getElementById("test").innerHTML = " не работает(";
-    console.error("Telegram WebApp is not initialized.");
-}
-
-// Убедитесь, что Telegram WebApp инициализирован
-if (window.Telegram && window.Telegram.WebApp) {
-    // Установите цвет заголовка
-    window.Telegram.WebApp.setHeaderColor("#1E90FF"); // Укажите ваш цвет в формате HEX
-
-    // Установите цвет фона
-    window.Telegram.WebApp.setBackgroundColor("#FFFFFF"); // Укажите ваш цвет в формате HEX
-}
+        // Установите цвет фона
+        window.Telegram.WebApp.setBackgroundColor("#FFFFFF"); // Задайте ваш цвет
+    }
+});
