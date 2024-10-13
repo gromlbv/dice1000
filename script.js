@@ -1,27 +1,3 @@
-const user = window.Telegram.WebApp.initDataUnsafe.user;
-console.log(user);
-try {
-    // Проверяем, существует ли пользователь и имеет ли он данные
-    if (user) {
-        document.getElementById("test").innerHTML = JSON.stringify(user); // Преобразуем объект в строку для отображения
-    } else {
-        document.getElementById("test").innerHTML = "aa"; // Сообщение, если пользователь не существует
-    }
-} catch (error) {
-    document.getElementById("test").innerHTML = "Ошибка";
-}
-
-
-if (user && user.photo_url) {
-    // Получаем URL фото профиля
-    const profilePhotoUrl = user.photo_url;
-
-    // Заменяем источник изображения
-    document.getElementById("profile-pic").src = profilePhotoUrl;
-} else {
-    console.log("Пользователь не имеет фото профиля");
-    document.getElementById("profile-pic").src = "default-profile-pic.png"; // Укажите путь к изображению по умолчанию
-}
 window.addEventListener("load", function() {
     const fadeInElements = document.querySelectorAll(".fade-in");
 
@@ -67,6 +43,18 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+
+function addActiveState(element) {
+    const randomAngle = Math.floor(Math.random() * 31) - 15;
+    element.style.transform = `scale(0.95) rotate(${randomAngle}deg)`;
+    element.classList.add('active');
+}
+
+function removeActiveState(element) {
+    element.style.transform = 'scale(1) rotate(0deg)';
+    element.classList.remove('active');
+}
+
 $(document).ready(function() {
     $('#create-game').click(function() {
         window.location.href = 'game.html';
@@ -80,15 +68,24 @@ $(document).ready(function() {
     $('#main-menu').click(function() {
         window.location.href = 'main.html';
     });
+    let user = window.Telegram.WebApp.initDataUnsafe.user;
+    console.log(user);
+    
+    try {
+        if (user) {
+            document.getElementById("test").innerHTML = JSON.stringify(user); // Преобразуем объект в строку для отображения
+        } else {
+            document.getElementById("test").innerHTML = "aa"; // Сообщение, если пользователь не существует
+        }
+    } catch (error) {
+        document.getElementById("test").innerHTML = "Ошибка";
+    }
+    
+    if (user && user.photo_url) {
+        let profilePhotoUrl = user.photo_url;
+        document.getElementById("profile-pic").src = profilePhotoUrl;
+    } else {
+        console.log("Пользователь не имеет фото профиля");
+        document.getElementById("profile-pic").src = "source/profile-pic.png"; // Укажите путь к изображению по умолчанию
+    }
 });
-
-function addActiveState(element) {
-    const randomAngle = Math.floor(Math.random() * 31) - 15;
-    element.style.transform = `scale(0.95) rotate(${randomAngle}deg)`;
-    element.classList.add('active');
-}
-
-function removeActiveState(element) {
-    element.style.transform = 'scale(1) rotate(0deg)';
-    element.classList.remove('active');
-}
