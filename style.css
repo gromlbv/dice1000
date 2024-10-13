@@ -29,12 +29,8 @@ img {
     pointer-events: none;
 }
 
-button, a {
-    -webkit-tap-highlight-color: transparent;
-}
-button {
-    transition: transform 0.2s ease;
-}
+
+
 
 .fade-in {
     opacity: 0;
@@ -233,15 +229,17 @@ flex{
     filter:  drop-shadow(0 44px 44px rgb(249, 250, 255, 100)) drop-shadow(0px 4px 158px rgb(249, 250, 255))drop-shadow(0px 4px 158px rgb(249, 250, 255));
 }
 
-.interactive{
+.interactive {
     transition: transform 0.1s ease;
     z-index: 10;
     pointer-events: all;
+    will-change: transform; /* Оптимизация анимации */
 }
 
 .interactive.active {
-    transition: transform 0.2s ease;
+    transition: transform 0.2s ease; /* Время анимации при активном состоянии */
 }
+
 
 .absolute-top{
     position: absolute;
@@ -361,4 +359,20 @@ flex{
 .rules-icons > p{
     opacity: 0.85;
     color: white;
+}
+
+
+
+
+button, a {
+    -webkit-tap-highlight-color: transparent;
+}
+button {
+    transition: transform 0.3s ease, opacity 0.3s ease !important; 
+    will-change: transform, opacity !important;
+}
+
+button.active {
+    transform: scale(0.95) !important; 
+    opacity: 0.8 !important;
 }

@@ -12,16 +12,17 @@ window.addEventListener("load", function() {
     addShowClass(fadeInElements, 300);
 });
 
+$(document).ready(function() {
+    $('button').on('mousedown touchstart', function() {
+        addActiveState(this);
+    });
 
-
-let clicked = false;
-
-$("button").on("mousedown touchstart", function() {
-    $(this).css("transform", "scale(0.95)");
+    $('button').on('mouseup mouseleave touchend', function() {
+        removeActiveState(this);
+    });
 });
-$("button").on("mouseup mouseleave touchend", function() {
-    $(this).css("transform", "scale(1)");
-});
+
+
 document.addEventListener('DOMContentLoaded', () => {
     const interactives = document.querySelectorAll('.interactive');
 
@@ -55,7 +56,23 @@ function removeActiveState(element) {
     element.classList.remove('active');
 }
 
+
 $(document).ready(function() {
+    $("button").on("mousedown touchstart", function() {
+        $(this).css("transform", "scale(0.95)");
+    });
+    $("button").on("mouseup mouseleave touchend", function() {
+        $(this).css("transform", "scale(1)");
+    });
+});
+
+$(document).ready(function() {
+    const username = "Дмитрий";
+    const balance = "500";
+    
+    document.querySelector(".data-username").textContent = username;
+    document.querySelector(".data-balance").textContent = balance + " $CHIP";
+
     $('#create-game').click(function() {
         window.location.href = 'game.html';
     });
@@ -68,19 +85,14 @@ $(document).ready(function() {
     $('#main-menu').click(function() {
         window.location.href = 'main.html';
     });
+
     try {
         if (window.Telegram && window.Telegram.WebApp) {
             let user = window.Telegram.WebApp.initDataUnsafe.user;
             console.log(user);
-            
+
             // Меняем цвет хедера на белый
             window.Telegram.WebApp.setHeaderColor('bg_color', '#ffffff');
-            
-            if (user) {
-                document.getElementById("test").innerHTML = JSON.stringify(user); // Преобразуем объект в строку для отображения
-            } else {
-                document.getElementById("test").innerHTML = "aa"; // Сообщение, если пользователь не существует
-            }
     
             if (user && user.photo_url) {
                 let profilePhotoUrl = user.photo_url;
