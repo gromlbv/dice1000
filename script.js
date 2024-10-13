@@ -1,8 +1,6 @@
-
+const user = window.Telegram.WebApp.initDataUnsafe.user;
+console.log(user);
 try {
-    const user = window.Telegram.WebApp.initDataUnsafe.user;
-    console.log(user);
-    
     // Проверяем, существует ли пользователь и имеет ли он данные
     if (user) {
         document.getElementById("test").innerHTML = JSON.stringify(user); // Преобразуем объект в строку для отображения
@@ -12,8 +10,7 @@ try {
 } catch (error) {
     document.getElementById("test").innerHTML = "Ошибка";
 }
-const user = window.Telegram.WebApp.initDataUnsafe.user;
-console.log(user);
+
 
 if (user && user.photo_url) {
     // Получаем URL фото профиля
