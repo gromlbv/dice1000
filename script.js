@@ -68,24 +68,32 @@ $(document).ready(function() {
     $('#main-menu').click(function() {
         window.location.href = 'main.html';
     });
-    let user = window.Telegram.WebApp.initDataUnsafe.user;
-    console.log(user);
-    
     try {
-        if (user) {
-            document.getElementById("test").innerHTML = JSON.stringify(user); // Преобразуем объект в строку для отображения
+        if (window.Telegram && window.Telegram.WebApp) {
+            let user = window.Telegram.WebApp.initDataUnsafe.user;
+            console.log(user);
+            
+            // Меняем цвет хедера на белый
+            window.Telegram.WebApp.setHeaderColor('bg_color', '#ffffff');
+            
+            if (user) {
+                document.getElementById("test").innerHTML = JSON.stringify(user); // Преобразуем объект в строку для отображения
+            } else {
+                document.getElementById("test").innerHTML = "aa"; // Сообщение, если пользователь не существует
+            }
+    
+            if (user && user.photo_url) {
+                let profilePhotoUrl = user.photo_url;
+                document.getElementById("profile-pic").src = profilePhotoUrl;
+            } else {
+                console.log("Пользователь не имеет фото профиля");
+                document.getElementById("profile-pic").src = "source/profile-pic.png"; // Изображение по умолчанию
+            }
         } else {
-            document.getElementById("test").innerHTML = "aa"; // Сообщение, если пользователь не существует
+            console.log("Запуск не в Telegram WebApp");
         }
     } catch (error) {
+        console.log("Ошибка:", error);
         document.getElementById("test").innerHTML = "Ошибка";
-    }
-    
-    if (user && user.photo_url) {
-        let profilePhotoUrl = user.photo_url;
-        document.getElementById("profile-pic").src = profilePhotoUrl;
-    } else {
-        console.log("Пользователь не имеет фото профиля");
-        document.getElementById("profile-pic").src = "source/profile-pic.png"; // Укажите путь к изображению по умолчанию
-    }
+    }    
 });
