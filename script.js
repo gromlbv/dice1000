@@ -10,27 +10,38 @@ window.addEventListener("load", function() {
     }
 
     addShowClass(fadeInElements, 300);
+
 });
+
+function addActiveState(element) {
+    const randomAngle = Math.floor(Math.random() * 31) - 15;
+    element.style.transform = `scale(0.95) rotate(${randomAngle}deg)`;
+    element.classList.add('active');
+}
+
+function removeActiveState(element) {
+    element.style.transform = 'scale(1) rotate(0deg)';
+    element.classList.remove('active');
+    
+}
 
 $(document).ready(function() {
-    $('button').on('mousedown touchstart', function() {
-        addActiveState(this);
-    });
+    const username = "Дмитрий";
+    const balance = "500";
 
-    $('button').on('mouseup mouseleave touchend', function() {
-        removeActiveState(this);
-    });
-});
+    try {
+        document.querySelector(".data-username").textContent = username;
+        document.querySelector(".data-balance").textContent = balance + " $CHIP";
+    } catch (error) {
+        console.error("Ошибка при обновлении данных:", error);
+    }
 
 
-document.addEventListener('DOMContentLoaded', () => {
     const interactives = document.querySelectorAll('.interactive');
-
     interactives.forEach(interactive => {
         interactive.addEventListener('touchstart', () => {
             addActiveState(interactive);
         });
-
         interactive.addEventListener('touchend', () => {
             removeActiveState(interactive);
         });
@@ -43,48 +54,44 @@ document.addEventListener('DOMContentLoaded', () => {
             removeActiveState(interactive);
         });
     });
-});
-
-function addActiveState(element) {
-    const randomAngle = Math.floor(Math.random() * 31) - 15;
-    element.style.transform = `scale(0.95) rotate(${randomAngle}deg)`;
-    element.classList.add('active');
-}
-
-function removeActiveState(element) {
-    element.style.transform = 'scale(1) rotate(0deg)';
-    element.classList.remove('active');
-}
 
 
-$(document).ready(function() {
     $("button").on("mousedown touchstart", function() {
         $(this).css("transform", "scale(0.95)");
     });
     $("button").on("mouseup mouseleave touchend", function() {
         $(this).css("transform", "scale(1)");
     });
-});
 
-$(document).ready(function() {
-    const username = "Дмитрий";
-    const balance = "500";
-    
-    document.querySelector(".data-username").textContent = username;
-    document.querySelector(".data-balance").textContent = balance + " $CHIP";
-
-    $('#create-game').click(function() {
-        window.location.href = 'game.html';
+    $('button').on('mousedown touchstart', function() {
+        addActiveState(this);
     });
+    $('button').on('mouseup mouseleave touchend', function() {
+        removeActiveState(this);
+    });
+    
+    
+    const fadeInElements = document.querySelectorAll(".fade-in");
+    function removeShowClass(elements, delay) {
+        elements.forEach(function(element, index) {
+            setTimeout(function() {
+                element.classList.remove("show");
+            }, delay * index);
+        });
+    }
     $('#rules').click(function() {
+        removeShowClass(fadeInElements, 100);
         window.location.href = 'rules.html';
     });
     $('#create-game').click(function() {
-        window.location.href = 'game.html';
+        removeShowClass(fadeInElements, 100);
+        window.location.href = 'create-game.html';
     });
     $('#main-menu').click(function() {
+        removeShowClass(fadeInElements, 100);
         window.location.href = 'main.html';
     });
+
 
     try {
         if (window.Telegram && window.Telegram.WebApp) {
@@ -106,6 +113,5 @@ $(document).ready(function() {
         }
     } catch (error) {
         console.log("Ошибка:", error);
-        document.getElementById("test").innerHTML = "Ошибка";
     }    
 });

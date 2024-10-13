@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <script src="script.js"></script>
+    <title>Main Menu - DICE1000</title>
+</head>
+<body style="overflow: auto;">
+    <div class="wrapper fade-in priority-1">
+        <flex class="absolute-top relative">
+            <button class="skins-btn">
+                <img src="source/dices/2.png" alt="">
+                <div>Создание игры</div>
+            </button>
+            <flex class="header-user">
+                <flex>
+                    <div class="data-username">Username</div>
+                    <div class="data-balance">150 $CHIP</div>
+                </flex>
+                <img src="source/profile-pic.png">
+            </flex>
+        </flex>
+        <flex class="create-flex">
+            <flex>
+                <label for="">Название</label>
+                <input type="text" placeholder="Лобби игрока Username">
+                <label for="" style="margin-top: 10px;">Ставка <font>$CHIP</font></label>
+                <input type="text" placeholder="100">
+            </flex>
+            
+            <flex class="players-wrapper">
+                <label for="player-flex">Игроки</label>
+                <flex class="player-flex">
+                    <img src="source/profile-pic.png">
+                    <flex class="player-name-wrapper">
+                        <div class="player-role">Я</div>
+                        <div class="player-username">{{Username}}</div>
+                    </flex>
+                    <div class="data-role">Хост</div>
+                    <div class="right-btn">
+                        <img src="source/icons/user.svg" alt="">
+                    </div>
+                </flex>
+            </flex>
+        </flex>
+    </div>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
