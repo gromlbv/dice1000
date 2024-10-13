@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+
+    <title>Main Menu - DICE1000</title>
+</head>
+<body style="overflow: auto;">
+    <div class="wrapper fade-in priority-1">
+        <flex class="absolute-top relative">
+            <button class="skins-btn">
+                <img src="source/dices/2.png" alt="">
+                <div>СКИНЫ</div>
+            </button>
+            <flex class="header-user">
+                <flex>
+                    <div class="data-username">Username</div>
+                    <div class="data-balance">150 $CHIP</div>
+                </flex>
+                <img src="source/profile-pic.png">
+            </flex>
+        </flex>
+        <div class="rules-wrapper">
+            <h1>Правила игры в 1000 Dice</h1>
+            <p><b>Все просто: В игре 5 костей.</b> Кидаешь, считаешь, набираешь 1000 очков, забираешь банк. Есть результативные значения и комбинации, со своей стоимостью очков.</p>
+            <h1>Комбинации</h1>
+            <img src="source/rules/combinations.svg">
+            <h1>Начало игры</h1>
+            <p>Все бросают по кругу. Кто больше, тот первый. Пока не будет различных значений.</p>
+            <p>Чтобы открыть свою игру, тебе нужно набрать «Золотой» 60 очков за один ход. Не набрал, ходит следующий. Когда набрал «Золотой» можешь записывать или бросать кости, на которых не выпали результативные очки или комбинации, если выпали все 5 костей, обязательно нужно «подтвердить», то есть оставит возможность еще одного броска (за исключением комбинации 1-5 и 2-6, они  записываются сразу).</p>
+            <p>Еще раз: Если хочешь записать себе очки, то у тебя должна быть возможность свободного хода. То есть, если ты не можешь бросать кубики, так они все результативные, то для того, чтобы записать себе очки, ты должен бросить кубики еще раз. И если ни чего не выпало, то это БОЛТ. А если выпало, то можешь приплюсовать себе эти очки, и бросать еще раз.</p>
+            <div class="rules-icons">
+                <flex>
+                    <img src="source/icons/bolt.svg" class="interactive">
+                    <h1>Болты</h1>
+                </flex>
+                <p>Записываются тогда, когда не выпало ни одного результативного очка или комбинации. Набираешь 3 болта, в процессе игры, списывается 50 очков.</p>
+                <p>Если ты, по какой-то причине, будь то обгон или болт или коснулся 555 очков - это Самосвал - самосваливаешься в нуль. Но не беспокойся, «Золотой» набирать необходимости нет. Просто продолжай. Шансы всегда есть.</p>
+            </div>
+            <div class="rules-icons">
+                <flex>
+                    <img src="source/icons/shovel.svg" class="interactive">
+                    <h1>Ямы</h1>
+                </flex>
+                <p>2 диапазона. От 200 до 300 и от 600 до 700. Суть в том, что если  ты в яме, то тебе нужно из нее выпрыгнуть. То есть за раз набрать количество очков до верхней границы. Записывай очки с умом.</p>
+                <p>Обгон.<br>Если ты набрал на 5 очков больше, чем есть у другого игрока - это Обгон. Минус 50 очков всем тем, кого обогнал. Если догнал игрока и встали вровень, ему нужно бежать, а тебе обгонять. </p>
+            </div>
+            <div class="rules-icons">
+                <flex>
+                    <img src="source/icons/barrel.svg" class="interactive">
+                    <h1>Бочки</h1>
+                </flex>
+                <p>Коснулся 900 очков - сел на бочку. Необходимо набрать больше 100 за 1 ход чтобы закончить игру. Не набрал - слетел с бочки - 60 очков. Слетел с бочки 3 раза – упал на ноль.</p>
+                <p>Если ты, по какой-то причине, будь то обгон или болт или коснулся 555 очков - это Самосвал - самосваливаешься в нуль. Но не беспокойся, «Золотой» набирать необходимости нет. Просто продолжай. Шансы всегда есть.</p>
+            </div>
+             <h1 style="text-align: center; margin-top: 0px; margin-bottom: 20px;">Удачи в игре!
+                <br>И пусть победит сильнейший!</h1>
+            <button id="main-menu" class="secondary">В главное меню</button>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

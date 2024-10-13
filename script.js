@@ -45,11 +45,9 @@ let clicked = false;
 
 $("button").on("mousedown touchstart", function() {
     $(this).css("transform", "scale(0.95)");
-    $(this).css("border-radius", "100px");
 });
 $("button").on("mouseup mouseleave touchend", function() {
     $(this).css("transform", "scale(1)");
-    $(this).css("border-radius", "25px");
 });
 document.addEventListener('DOMContentLoaded', () => {
     const interactives = document.querySelectorAll('.interactive');
@@ -70,6 +68,20 @@ document.addEventListener('DOMContentLoaded', () => {
         interactive.addEventListener('mouseup', () => {
             removeActiveState(interactive);
         });
+    });
+});
+$(document).ready(function() {
+    $('#create-game').click(function() {
+        window.location.href = 'game.html';
+    });
+    $('#rules').click(function() {
+        window.location.href = 'rules.html';
+    });
+    $('#create-game').click(function() {
+        window.location.href = 'game.html';
+    });
+    $('#main-menu').click(function() {
+        window.location.href = 'main.html';
     });
 });
 
