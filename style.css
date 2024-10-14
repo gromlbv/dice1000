@@ -45,16 +45,16 @@ img {
 
 
 /* FONTS */
-h1{
+h1, p, h3{
     margin: 0;
+}
+h1{
     color: #575757;
     text-align: center;
     font-size: 32px;
     font-weight: 600;
 }
-p{
-    margin: 0;
-}
+
 body{
     max-width: 500px;
 }
@@ -142,7 +142,7 @@ flex{
     font-weight: 600;
 
     color: #FFF;
-    background: #0047ff;
+    background: #4579FF;
 }
 .secondary{
     color: #4579FF;
@@ -469,4 +469,119 @@ button.active {
     color: #FFF;
     font-size: 16px;
     font-weight: 600;
+}
+.player-right-btn{
+    min-height: 18px;
+    min-width: 18px;
+    display: flex;
+}
+
+
+flex.absolute-bottom{
+    gap: 12px;
+}
+#players-ready{
+    color: #FFF;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+
+
+/* БОНУСЫ */
+.bonuses-wrapper{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    width: calc(100% - 64px);
+    margin-bottom: 24px;
+}
+.bonus-wrapper{
+    flex-direction: row;
+    gap: 8px;
+
+    padding: 6px;
+    max-height: 80px;
+
+    border-radius: 18px;
+    background: #E3EAFF;
+}
+.bonus-img-wr{
+    display: flex;
+
+    max-height: 66px;
+    max-width: 66px;
+    height: 66px;
+    width: 66px;
+    flex: 1;
+
+    display: flex;
+    padding: 7px;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 8px;
+
+    border-radius: 12px;
+    background-color: #4579FF;
+
+    color: #FFF;
+    font-family: Inter;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    text-transform: uppercase;
+}
+
+.bonus-main{
+    max-height: 100%;
+    flex: 1;
+}
+.bonus-head{
+    flex: 1;
+    flex-direction: row;
+}
+.bonus-head h3{
+    color: #4579FF;
+    leading-trim: both;
+    text-edge: cap;
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    text-transform: uppercase;
+}
+.bonus-progress{
+    display: flex;
+    max-height: 24px;
+    padding: 5px 7px;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    flex-shrink: 0;
+    align-self: stretch;
+    
+    border-radius: 12px;
+    background: #FFF;
+
+    font-size: 14px;
+    font-weight: 300;
+}
+.bonus-progress font{
+    font-weight: 500;
+}
+
+.bonus-link{
+    display: flex;
+    min-width: 24px;
+    height: 24px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+
+    border-radius: var(---cornerRadius-medium, 12px);
+    background: #4579FF;
 }

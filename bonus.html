@@ -22,14 +22,14 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="script.js"></script>
 
-    <title>Lobby - DICE1000</title>
+    <title>Bonus - DICE1000</title>
 </head>
 <body style="overflow: auto;">
     <div class="wrapper fade-in priority-1">
         <flex class="absolute-top relative">
             <button class="skins-btn">
-                <img src="source/dices/2.png" alt="">
-                <div>Создание игры</div>
+                <img src="source/dices/2.png">
+                <div>Бонусы</div>
             </button>
             <flex class="header-user">
                 <flex>
@@ -39,40 +39,29 @@
                 <img src="source/profile-pic.png">
             </flex>
         </flex>
-        <flex class="create-flex">
-            <flex>
-                <label for="">Название</label>
-                <input type="text" placeholder="Лобби игрока Username">
-                <label for="" style="margin-top: 10px;">Ставка <font>$CHIP</font></label>
-                <input type="text" placeholder="100">
-            </flex>
-            
-            <flex class="players-wrapper">
-                <label for="player-flex">Игроки</label>
-                <flex class="player-flex">
-                    <img src="source/profile-pic.png">
-                    <flex class="player-name-wrapper">
-                        <div class="player-role">Я</div>
-                        <div class="player-username">{{Username}}</div>
+        <flex class="bonuses-wrapper">
+            <flex class="bonus-wrapper">
+                <div class="bonus-img-wr">
+                    <img src="source/icons/clock.png" alt="">
+                    01:59:58
+                </div>
+                <flex class="bonus-main">
+                    <flex class="bonus-head">
+                        <h3>
+                            ПОДПИСАТЬСЯ НА КАНАЛ НОВОСТИ
+                        </h3>
+                        <div class="bonus-link">
+                            <img src="source/icons/link.svg">
+                        </div>
                     </flex>
-                    <div class="data-role">Хост</div>
-                    <div class="player-right-btn">
-                        <img src="source/icons/user.svg" alt="">
+                    <div class="bonus-progress">
+                        ПОЛУЧЕНО 
+                        <font>452 / 7200</font>
+                        $CHIP
                     </div>
                 </flex>
             </flex>
         </flex>
-        <flex class="absolute-bottom fade-in priority-3">
-            <button class="secondary">
-                <img src="source/icons/share.svg">
-                Поделиться игрой
-            </button>
-            <button class="primary gradient">
-                <div id="players-ready">3/4</div>
-                Начать игру
-            </button>
-        </flex>
-
     </div>
 </body>
 </html>

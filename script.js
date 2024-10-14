@@ -79,17 +79,21 @@ $(document).ready(function() {
             }, delay * index);
         });
     }
-    $('#rules').click(function() {
+    $('#rules-redirect').click(function() {
         removeShowClass(fadeInElements, 100);
         window.location.href = 'rules.html';
     });
-    $('#create-game').click(function() {
+    $('#create-game-redirect').click(function() {
         removeShowClass(fadeInElements, 100);
         window.location.href = 'create-game.html';
     });
-    $('#main-menu').click(function() {
+    $('#main-menu-redirect').click(function() {
         removeShowClass(fadeInElements, 100);
         window.location.href = 'main.html';
+    });
+    $('#bonus-redirect').click(function() {
+        removeShowClass(fadeInElements, 100);
+        window.location.href = 'bonus.html';
     });
 
 
