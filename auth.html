@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+
+    <title>Авторизация</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+    <style>
+        body {
+            padding: 5px 25px;
+            background-color: #fff;
+        }
+        header {
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 30px;
+        }
+        .message {
+            font-size: 24px;
+            font-weight: 600;
+        }
+    </style>
+    <header>Добро пожаловать<span class="name" style="opacity: 0; transition-duration: .3s;"></span></header>
+    <div class="message" style="opacity: 0; transition-duration: .3s;"></div>
+    <script>
+        const main = async () => {
+        
+            data = await fetch("/auth", {method: "POST", body: JSON.stringify(window.Telegram.WebApp.initDataUnsafe)})
+            setTimeout(() => {
+                document.querySelector(".name").innerText = ', ' + window.Telegram.WebApp.initDataUnsafe.user.first_name
+                document.querySelector(".name").style.opacity = 1
+            }, 200)
+
+            setTimeout(async () => {
+                if (data.status == 200){
+                    window.location.href = "/{{redirect}}"
+                }
+                if (data.status == 401){
+                    document.querySelector(".message").innerText = await data.text()
+                    document.querySelector(".message").style.opacity = 1
+                }
+                if (data.status == 500){
+                    document.querySelector(".message").innerText = "Кажется на сервере возникла внеплановая ошибка..."
+                    document.querySelector(".message").style.opacity = 1
+                }
+            }, 800)
+        }
+        main()
+    </script>
+</body>
+</html>

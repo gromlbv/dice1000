@@ -26,16 +26,6 @@ function removeActiveState(element) {
 }
 
 $(document).ready(function() {
-    const username = "Дмитрий";
-    const balance = "500";
-
-    try {
-        document.querySelector(".data-username").textContent = username;
-        document.querySelector(".data-balance").textContent = balance + " $CHIP";
-    } catch (error) {
-        console.error("Ошибка при обновлении данных:", error);
-    }
-
 
     const interactives = document.querySelectorAll('.interactive');
     interactives.forEach(interactive => {
@@ -85,37 +75,16 @@ $(document).ready(function() {
     });
     $('#create-game-redirect').click(function() {
         removeShowClass(fadeInElements, 100);
-        window.location.href = 'create-game.html';
+        window.location.href = '/lobby';
     });
     $('#main-menu-redirect').click(function() {
         removeShowClass(fadeInElements, 100);
-        window.location.href = 'main.html';
+        window.location.href = '/';
     });
     $('#bonus-redirect').click(function() {
         removeShowClass(fadeInElements, 100);
         window.location.href = 'bonus.html';
     });
 
-
-    try {
-        if (window.Telegram && window.Telegram.WebApp) {
-            let user = window.Telegram.WebApp.initDataUnsafe.user;
-            console.log(user);
-
-            // Меняем цвет хедера на белый
-            window.Telegram.WebApp.setHeaderColor('bg_color', '#ffffff');
-    
-            if (user && user.photo_url) {
-                let profilePhotoUrl = user.photo_url;
-                document.getElementById("profile-pic").src = profilePhotoUrl;
-            } else {
-                console.log("Пользователь не имеет фото профиля");
-                document.getElementById("profile-pic").src = "source/profile-pic.png"; // Изображение по умолчанию
-            }
-        } else {
-            console.log("Запуск не в Telegram WebApp");
-        }
-    } catch (error) {
-        console.log("Ошибка:", error);
-    }    
+    window.Telegram.WebApp.setHeaderColor('bg_color', '#ffffff');
 });

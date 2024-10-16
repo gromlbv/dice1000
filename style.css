@@ -148,7 +148,7 @@ flex{
     color: #4579FF;
     background: #E3EAFF;
 }
-.primary.gradient{
+.gradient{
     border-radius: 18px;
     background: #4579FF;
     box-shadow: 0px 17px 29.5px 0px rgba(255, 255, 255, 0.25) inset;
@@ -295,7 +295,7 @@ flex{
     background: #ECF1FF;
 }
 .header-user{
-    height: 100%;
+    height: calc(100% - 20px);
     flex-direction: row;
     justify-content: center;
     align-items: center;
@@ -432,6 +432,7 @@ button.active {
 
 .players-wrapper{
     width: 100%;
+    gap: 10px;
 }
 .player-flex{
     flex-direction: row;
@@ -442,7 +443,7 @@ button.active {
     width: calc(100%-12px);
     height: 57px;
     padding: 0 12px 0px 8px;
-
+gap: 10px;
     border-radius: 18px;
     background: #4579FF;
     color: white;
