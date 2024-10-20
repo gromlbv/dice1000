@@ -86,5 +86,43 @@ $(document).ready(function() {
         window.location.href = 'bonus.html';
     });
 
+    const skins = document.getElementById('skins');
+    const wallet = document.querySelector('.wallet');
+    const wallet_bg = document.querySelector('.wallet-bg');
+    const wallet_item = document.querySelector('.wallet-item');
+
+    
+    skins.addEventListener('click', toggleVisibility);
+    wallet_bg.addEventListener('click', toggleVisibility);
+    wallet.addEventListener('click', (event) => {
+        if (isClickOnMargin(event, wallet_item)) {
+            toggleVisibility();
+        }
+    });
+    
+    function toggleVisibility() {
+        wallet.classList.toggle('visible');
+        wallet.classList.toggle('hidden');
+        
+        wallet_bg.classList.toggle('visible');
+        wallet_bg.classList.toggle('hidden');
+    }
+    
+    function isClickOnMargin(event, element) {
+        const rect = element.getBoundingClientRect();
+        console.log("aaaa")
+        
+        return event.clientX < rect.left || event.clientX > rect.right || 
+               event.clientY < rect.top || event.clientY > rect.bottom;
+    }
+    
+
+
+    
+
+
     window.Telegram.WebApp.setHeaderColor('bg_color', '#ffffff');
 });
+
+
+

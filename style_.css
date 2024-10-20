@@ -253,6 +253,81 @@ flex{
     transition: transform 0.2s ease; /* Время анимации при активном состоянии */
 }
 
+.wallet{
+    z-index: 10;
+    position: absolute;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 6px;
+
+    width: 100vw;
+}
+.wallet-item{
+    margin: 15px 25px;
+    padding: 6px;
+    border-radius: 24px;
+    background: #FFF;
+    box-shadow: 0px 14px 21.6px 0px rgba(41, 69, 143, 0.25);
+
+    color: #4579FF;
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+/* window 1 */
+
+.wallet-item.connect > flex{
+    padding: 6px 8px 6px 12px;
+    height: fit-content;
+    flex-direction: row;
+    z-index: 9;
+}
+.wallet-item.is-connected > flex{
+    padding: 6px 8px;
+    gap: 6px;
+    height: fit-content;
+    z-index: 9;
+}
+.wallet-item.is-connected font{
+    align-self: stretch;
+    color: #4579FF;
+    font-size: 16px;
+    font-weight: 400;
+}
+.wallet-item > flex > img{
+    height: 40px;
+}
+
+/* window 2 */
+
+
+
+.wallet-bg{
+    opacity: 0;
+    display: flex;
+    z-index: 8;
+    top: 0;
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(255, 255, 255, 0.43);
+    backdrop-filter: blur(6px);
+}
+.hidden {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+}
+
+.visible {
+    opacity: 1;
+    pointer-events: auto;
+    transition: opacity 0.5s ease;
+}
 
 .absolute-top{
     position: absolute;

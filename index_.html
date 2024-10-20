@@ -25,8 +25,25 @@
 </head>
 <body>
     <div class="wrapper fade-in priority-1">
+        <div class="wallet-bg hidden"></div>
+        <div class="wallet hidden">
+            <div class="wallet-item connect">
+                <flex>
+                    Подключите кошелек с артефактами
+                    <img src="source/dices/2.png">
+                </flex>
+                <button class="primary gradient" id="connect-wallet">Подключить Кошелек</button>
+            </div>
+            <div class="wallet-item is-connected">
+                <flex>
+                    Подключен: {{wallet_id}}
+                    <font>Игровые артефакты не обнаружены</font>
+                </flex>
+                <button class="primary gradient" id="connect-wallet">Отключить Кошелек</button>
+            </div>
+        </div>
         <flex class="absolute-top">
-            <button class="skins-btn">
+            <button class="skins-btn" id="skins">
                 <img src="source/dices/2.png">
                 <div>СКИНЫ</div>
             </button>
