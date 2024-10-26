@@ -52,7 +52,7 @@
             <flex class="players-wrapper">
                 <label for="player-flex">Игроки</label>
                 {% for player in players %}
-                    <flex class="player-flex {% if player.is_owner %}gradient{% endif %}">
+                    <flex class="player-flex {% if player.is_owner %}gradient{% endif %}" id="player{{player.client.id}}">
                         <img src="images/{{player.client.avatar}}">
                         <flex class="player-name-wrapper">
                             {% if player.client_id == client.id %}<div class="player-role">Я</div>{% endif %}
@@ -60,7 +60,7 @@
                         </flex>
                         <div class="data-role">{% if player.is_owner %}Хост{% else %}Игрок{% endif %}</div>
                         <div class="player-right-btn">
-                            <img src="source/icons/user.svg" alt="">
+                            <img src="source/icons/user.svg">
                         </div>
                     </flex>
                 {% endfor %}
@@ -72,7 +72,7 @@
                 Поделиться игрой
             </button>
             {% if room.owner_id == client.id %}
-            <button class="primary gradient" onclick="fetch(`/game/start?{{room.invitation}}`, {method: 'POST'})">
+            <button class="primary gradient start-game">
                 <div id="players-ready"><span class="players_count">{{players|length}}</span>/{{room.player_limit}}</div>
                 Начать игру
             </button>{% endif %}
@@ -91,54 +91,75 @@
 
         document.addEventListener("new_player", (msg) => {
             player = msg.detail.player
-            document.querySelector(".players-wrapper").innerHTML += `
-                <flex class="player-flex" id="player${player.id}" style="height: 0; transition-duration: .2s;opacity: 0;">
-                    <img src="images/${player.avatar}">
-                    <flex class="player-name-wrapper">
-                        <div class="player-username">${player.name}</div>
-                    </flex>
-                    <div class="data-role">Игрок</div>
-                    <div class="player-right-btn">
-                        <img src="source/icons/user.svg" alt="">
-                    </div>
-                </flex>`
+            elem = document.querySelector(".gradient.player-flex").cloneNode(true)
+            elem.setAttribute("id", `player${player.id}`)
+            elem.classList.remove("gradient")
+            elem.querySelector("img").setAttribute("src", `images/${player.avatar}`)
+            elem.querySelector(".player-username").innerText = player.name
+            elem.querySelector(".data-role").innerText = "Игрок"
+            elem.querySelector(".player-role").remove()
+            elem.style = 'height: 0; transition-duration: .2s;opacity: 0;'
+
+            document.querySelector(".players-wrapper").appendChild(elem)
+
             setTimeout(() => {
                 document.querySelector(`#player${player.id}`).style.removeProperty("height")
                 document.querySelector(`#player${player.id}`).style.removeProperty("opacity")
                 document.querySelector(".players_count").innerText = parseInt(document.querySelector(".players_count").innerText) + 1
             }, 100)
         });
+        
+        document.addEventListener("leave_player", (msg) => {
+            player = msg.detail.player
+            document.querySelector(`#player${player.id}`).style.height = 0
+            document.querySelector(`#player${player.id}`).style.opacity = 0
+            document.querySelector(".players_count").innerText = parseInt(document.querySelector(".players_count").innerText) - 1
+            setTimeout(() => {
+                document.querySelector(`#player${player.id}`).remove()
+            }, 250)
+        });
 
         document.addEventListener("redirect", (msg) => {
             window.location.href = msg.detail.target
         });
+        
         document.addEventListener("update_bet", (msg) => {
             document.querySelector(".bet").value = msg.detail.bet
         });
+        
         document.addEventListener("update_name", (msg) => {
             document.querySelector(".game-name").value = msg.detail.name
         });
 
         // {% if room.owner_id == client.id %} // КОММЕНТ НЕ УДАЛЯТЬ
 
-            let weitorname;
+        let weitorname;
 
-            document.querySelector(".bet").addEventListener("input", async e => {
+        document.querySelector(".bet").addEventListener("input", async e => {
 
-                result = await fetch(`/game/set/bet?{{room.invitation}}`, {method: 'POST', body: JSON.stringify({bet: parseInt(document.querySelector(".bet").value)})});
-                if (result.status == 400) {
-                    // значит сумма слишком большая
-                    document.querySelector(".bet").value = await result.text()
-                } 
-            })
-            document.querySelector(".game-name").addEventListener("input", e => {
-                clearTimeout(weitorname)
-                weitorname = setTimeout(() => {
+            result = await fetch(`/game/set/bet?{{room.invitation}}`, {method: 'POST', body: JSON.stringify({bet: parseInt(document.querySelector(".bet").value)})});
+            if (result.status == 400) {
+                // значит сумма слишком большая
+                document.querySelector(".bet").value = await result.text()
+            } 
+        })
+        document.querySelector(".game-name").addEventListener("input", e => {
+            clearTimeout(weitorname)
+            weitorname = setTimeout(() => {
 
-                    fetch(`/game/set/name?{{room.invitation}}`, {method: 'POST', body: JSON.stringify({name: document.querySelector(".game-name").value})});
+                fetch(`/game/set/name?{{room.invitation}}`, {method: 'POST', body: JSON.stringify({name: document.querySelector(".game-name").value})});
     
-                }, 200)
-            })
+            }, 200)
+        })
+
+        document.querySelector(".start-game").addEventListener("click", e => {
+            if (parseInt(document.querySelector(".players_count").innerText) <= 1) {
+                message("Мало игроков!")
+            }
+            else {
+                fetch(`/game/start?{{room.invitation}}`, {method: 'POST'})
+            }
+        })
 
         // {% endif %}
 
