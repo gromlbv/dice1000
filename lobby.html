@@ -13,14 +13,16 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
+    <link rel="stylesheet" href="message.css">
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
     
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="script.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" defer></script>
+    <script src="message.js" defer></script>
+    <script src="script.js" defer></script>
 
     <title>Lobby - DICE1000</title>
 </head>
@@ -29,7 +31,7 @@
         <flex class="absolute-top relative">
             <button class="skins-btn">
                 <img src="source/dices/2.png" alt="">
-                <div>Создание игры</div>
+                <div onclick="fetch('/leave?{{room.invitation}}', {method: 'POST'}); window.location.href = `/error?${encodeURI('Вы покинули комнату')}`">{% if room.owner_id == client.id %}Распустить комнату{% else %}Покинуть комнату{% endif %}</div>
             </button>
             <flex class="header-user">
                 <flex>
@@ -65,7 +67,7 @@
             </flex>
         </flex>
         <flex class="absolute-bottom fade-in priority-3">
-            <button class="secondary">
+            <button class="secondary share">
                 <img src="source/icons/share.svg">
                 Поделиться игрой
             </button>
@@ -139,6 +141,10 @@
             })
 
         // {% endif %}
+
+        document.querySelector(".share").addEventListener("click", e => {
+            window.open(`https://telegram.me/share/url?url=https://t.me/THSdice_bot?start={{room.invitation}}&text=` + "Присоединяйся к игре!", '_blank');
+        })
     </script>
 
 </body>
