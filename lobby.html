@@ -31,7 +31,7 @@
         <flex class="absolute-top relative">
             <button class="skins-btn">
                 <img src="source/dices/2.png" alt="">
-                <div onclick="fetch('/leave?{{room.invitation}}', {method: 'POST'}); window.location.href = `/error?${encodeURI('Вы покинули комнату')}`">{% if room.owner_id == client.id %}Распустить комнату{% else %}Покинуть комнату{% endif %}</div>
+                <div onclick="fetch('/leave?{{room.room_key}}', {method: 'POST'}); window.location.href = `/error?${encodeURI('Вы покинули комнату')}`">{% if room.owner_id == client.id %}Распустить комнату{% else %}Покинуть комнату{% endif %}</div>
             </button>
             <flex class="header-user">
                 <flex>
@@ -137,7 +137,7 @@
 
         document.querySelector(".bet").addEventListener("input", async e => {
 
-            result = await fetch(`/game/set/bet?{{room.invitation}}`, {method: 'POST', body: JSON.stringify({bet: parseInt(document.querySelector(".bet").value)})});
+            result = await fetch(`/game/set/bet?{{room.room_key}}`, {method: 'POST', body: JSON.stringify({bet: parseInt(document.querySelector(".bet").value)})});
             if (result.status == 400) {
                 // значит сумма слишком большая
                 document.querySelector(".bet").value = await result.text()
@@ -147,7 +147,7 @@
             clearTimeout(weitorname)
             weitorname = setTimeout(() => {
 
-                fetch(`/game/set/name?{{room.invitation}}`, {method: 'POST', body: JSON.stringify({name: document.querySelector(".game-name").value})});
+                fetch(`/game/set/name?{{room.room_key}}`, {method: 'POST', body: JSON.stringify({name: document.querySelector(".game-name").value})});
     
             }, 200)
         })
@@ -157,14 +157,14 @@
                 message("Мало игроков!")
             }
             else {
-                fetch(`/game/start?{{room.invitation}}`, {method: 'POST'})
+                fetch(`/game/start?{{room.room_key}}`, {method: 'POST'})
             }
         })
 
         // {% endif %}
 
         document.querySelector(".share").addEventListener("click", e => {
-            window.open(`https://telegram.me/share/url?url=https://t.me/THSdice_bot?start={{room.invitation}}&text=` + "Присоединяйся к игре!", '_blank');
+            window.open(`https://telegram.me/share/url?url=https://t.me/THSdice_bot?start={{room.room_key}}&text=` + "Присоединяйся к игре!", '_blank');
         })
     </script>
 
