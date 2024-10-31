@@ -10,6 +10,7 @@ body > .message {
     z-index: 5;
     transition-duration: .2s;
     width: fit-content;
+    white-space: nowrap;
 }
 body > .message.hidden {
     opacity: 0;

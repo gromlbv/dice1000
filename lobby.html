@@ -157,7 +157,7 @@
                 message("Мало игроков!")
             }
             else {
-                fetch(`/game/start?{{room.room_key}}`, {method: 'POST'})
+                fetch(`/game/start`, {method: 'POST', body: JSON.stringify({"room_key": "{{room.room_key}}"})})
             }
         })
 
