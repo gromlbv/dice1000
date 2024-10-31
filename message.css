@@ -1,0 +1,17 @@
+body > .message {
+    position: fixed;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px 15px;
+    border-radius: 10px;
+    background-color: #000000;
+    color: #ffffff;
+    z-index: 5;
+    transition-duration: .2s;
+    width: fit-content;
+}
+body > .message.hidden {
+    opacity: 0;
+    transform: translateX(-50%) scale(0.95);
+}
