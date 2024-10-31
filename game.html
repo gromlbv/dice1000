@@ -23,28 +23,39 @@
 
     <title>Game - DICE1000</title>
 </head>
-<body>
-    <div class="head">Игра</div>
-    <div class="playing-field">
-    <div class="gradient-wrapper">
-        <svg width="364" height="137" viewBox="0 0 364 137" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <g filter="url(#filter0_bf_721_1194)">
-        <rect x="-139.676" y="25" width="555" height="165" fill="url(#paint0_linear_721_1194)" fill-opacity="0.41"/>
-        </g>
-        <defs>
-        <filter id="filter0_bf_721_1194" x="-168.676" y="-4" width="613" height="223" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-        <feFlood flood-opacity="0" result="BackgroundImageFix"/>
-        <feGaussianBlur in="BackgroundImageFix" stdDeviation="14.5"/>
-        <feComposite in2="SourceAlpha" operator="in" result="effect1_backgroundBlur_721_1194"/>
-        <feBlend mode="normal" in="SourceGraphic" in2="effect1_backgroundBlur_721_1194" result="shape"/>
-        <feGaussianBlur stdDeviation="12.25" result="effect2_foregroundBlur_721_1194"/>
-        </filter>
-        <linearGradient id="paint0_linear_721_1194" x1="137.824" y1="190" x2="137.824" y2="25" gradientUnits="userSpaceOnUse">
-        <stop offset="1"/>
-        </linearGradient>
-        </defs>
-        </svg>
+<body class="game">
+    <div class="head">Хедер</div>
+    <div class="area">
     </div>
+    <div class="bottom-wr">
+        <div class="message">
+            {{Message}}
+        </div>
+        <div class="main-bar">
+            <div class="middle-wr">
+                <button class="white-block" id="stop">Еще</button>
+                <div class="drop-cubes-wr">
+                    <div class="drop-cubes">
+                        <div class="points white-block">+30</div>
+                        <div class="cubes white-block">
+                            <img src="source/dices/test-dice.png">
+                            <img src="source/dices/test-dice.png">
+                            <img src="source/dices/test-dice.png">
+                        </div>
+                    </div>
+                </div>
+                <button id="more" class="white-block">Все</button>
+            </div>
+            <div class="player-info">
+                <div class="points white-block">
+                    <font class="previous">{{Previous}}</font>
+                    +
+                    <div class="gained">125</div>
+                    =
+                    {{Current}}
+                </div>
+            </div>
+        </div>
     </div>
     <div class="home"></div>
 </body>

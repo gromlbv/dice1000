@@ -55,9 +55,6 @@ h1{
     font-weight: 600;
 }
 
-body{
-    max-width: 500px;
-}
 .wrapper{
     min-height: 100vh;
     
@@ -660,4 +657,126 @@ flex.absolute-bottom{
 
     border-radius: var(---cornerRadius-medium, 12px);
     background: #4579FF;
+}
+
+
+
+
+
+/* GAME */
+
+body.game{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+body.game>*{
+    max-width: 520px;
+}
+.area{
+    width: 100%;
+    height: 100%;
+}
+.bottom-wr{
+    bottom: 0;
+    width: 100%;
+    height: 24%;
+}
+.bottom-wr > .message{
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
+    padding: 3px 50px;
+}
+.main-bar{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    
+    width: 100%;
+    height: 172px;
+
+    border-radius: 12px 12px 0px 0px;
+    background: #4579FF;
+    color: white;
+
+    box-shadow: 0px 30px 55.3px -16px rgba(255, 255, 255, 0.32) inset;
+
+    padding: 8px;
+    box-sizing: border-box;
+}
+
+
+.middle-wr{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 8px;
+
+    width: 100%;
+}
+.middle-wr > button{
+    max-width: 85px;
+}
+.drop-cubes-wr{
+    flex-wrap: wrap;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+.drop-cubes{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 6px;
+}
+.drop-cubes .points{
+    display: flex;
+    padding: 3px 8px 3px 6px;
+    width: fit-content;
+}
+.drop-cubes .cubes{
+    display: flex;
+    height: 52px;
+}
+.drop-cubes .cubes > *{
+    width: 52px;
+}
+
+.white-block {
+    color: white;
+    border-radius: 4px;
+    border: none;
+    background: rgba(255, 255, 255, 0.24);
+    font-size: 16px;
+}
+
+.player-info > .points{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+
+    font-size: 22px;
+    border-radius: 25px;
+    height: 38px;
+}
+.points.previous{
+    color: #FFF;
+    font-size: 22px;
+    font-weight: 600;
+
+    opacity: 0.65;
+}
+.points .gained{
+    display: flex;
+    padding: 0px 6px;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 24px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.24);
 }
