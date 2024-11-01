@@ -76,6 +76,10 @@
             document.dispatchEvent(new CustomEvent(data['event'], {detail: data['data']}))
         };
 
+        const update_tray = (dices) => {
+            
+        }
+
         
         // <div class="drop-cubes">
         //     <div class="points white-block">+30</div>
@@ -134,11 +138,11 @@
         
                 state.dices.forEach(d => {
                     dice = document.createElement("img")
-                    dice.src = `../source/faces/${Math.floor(Math.random() * 5 + 1)}.png`
-                    dice.style.width = '68px'
-                    // background-color: #fff5da;
-                    dice.style.borderRadius = "23px"
                     dice.dice = d
+                    dice.src = `../dices/${dice.dice.glb}/${Math.floor(Math.random() * 5 + 1)}.png`
+                    dice.style.width = '68px'
+                    //background-color: #d6e8ff;
+                    dice.style.borderRadius = "8px"
                 
                     area.appendChild(dice)
                 })
@@ -153,16 +157,16 @@
 
                 anim = setInterval(() => {
                     document.querySelectorAll(".area img").forEach(dice => {
-                        dice.src = `../source/faces/${Math.floor(Math.random() * 5 + 1)}.png`
+                        dice.src = `../dices/${dice.dice.glb}/${Math.floor(Math.random() * 5 + 1)}.png`
                     })
                 }, 2000)
             }
             else {
                 state.dices.forEach(d => {
                     dice = document.createElement("img")
-                    dice.src = `../source/faces/${d.face}.png`
+                    dice.src = `../dices/${d.glb}/${d.face}.png`
                     dice.style.width = '68px'
-                    dice.style.borderRadius = "23px"
+                    dice.style.borderRadius = "8px"
                     dice.dice = d
                 
                     area.appendChild(dice)
@@ -199,7 +203,7 @@
                 clearInterval(anim)
 
                 document.querySelectorAll(".area img").forEach(dice => {
-                    dice.src = `../source/faces/${dice.dice.face}.png`
+                    dice.src = `../dices/${dice.dice.glb}/${dice.dice.face}.png`
                 })
                 anwer = await afatch("/game/commit-step")
                 log(await anwer.json())
