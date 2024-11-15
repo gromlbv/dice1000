@@ -31,7 +31,7 @@
         <flex class="absolute-top relative">
             <button class="skins-btn">
                 <img src="source/dices/2.png" alt="">
-                <div onclick="fetch('/leave?{{room.room_key}}', {method: 'POST'}); window.location.href = `/error?${encodeURI('Вы покинули комнату')}`">{% if room.owner_id == client.id %}Распустить комнату{% else %}Покинуть комнату{% endif %}</div>
+                <div onclick="fetch('/leave?{{room.room_key}}', {method: 'POST'}); window.location.href = `/`">{% if room.owner_id == client.id %}Распустить комнату{% else %}Покинуть комнату{% endif %}</div>
             </button>
             <flex class="header-user">
                 <flex>

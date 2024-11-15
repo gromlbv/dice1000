@@ -26,21 +26,18 @@
 </head>
 <body class="game">
     <div class="head">Хедер</div>
-    <div class="area">
-    </div>
+    <div class="area"></div>
     <div class="bottom-wr">
-        <div class="message">
-            {{Message}}
-        </div>
+        <div class="message"></div>
         <div class="main-bar">
             <div class="middle-wr">
-                <button class="white-block" id="stop">Еще</button>
+                <button class="white-block" id="more">Еще</button>
                 <div class="drop-cubes-wr"></div>
-                <button id="more" class="white-block">Все</button>
+                <button id="stop" class="white-block">Все</button>
             </div>
             <div class="player-info">
                 <div class="points white-block">
-                    <font class="previous">{{Previous}}</font>
+                    <font class="previous"></font>
                 </div>
             </div>
         </div>
@@ -51,164 +48,272 @@
 
         // набор вспомогательных функций
         const log = console.log
-        const afatch = (input, body = {}) => {
+        const afetch = (input, body = {}) => {
+            // body в формате словаря обязательно
             body["room_key"] = "{{room.room_key}}"
             return fetch(input, {method: 'POST', body: JSON.stringify(body)})
         }
-        const add_score = (score) => {
-            document.querySelector(".points").innerHTML += `+<div class="gained">${score}</div>`
+        const contains = (iter, check, offset = 0) => {
+            // iter - итерируемая последовательность; check - функция которая обрабатываеет начало 
+            for (const i of iter.slice(offset)) {
+                if (check(i)) return true
+            }
+            return false
         }
-        const update_score = (score) => {
-            document.querySelector(".points .gained").lastChild.innerText = score
+        const indexof = (iter, check, offset = 0) => {
+            let i = 0
+            for (const it of iter.slice(offset)) {
+                if (check(it)) return i
+                i += 1
+            }
+            return -1
         }
-
+     
         let state;
-        let anim;
+        let step;
+
         const header = document.querySelector(".head")
         const area = document.querySelector(".area")
+        const tray = document.querySelector(".drop-cubes-wr")
         const bottomMessage = document.querySelector(".bottom-wr > .message")
 
         const eventSource = new EventSource('/listen');
-
-        eventSource.onmessage = (e) => {
+        
+        eventSource.onmessage = (e) => { // слушаетель ивентов от сервера
             data = JSON.parse(e.data)
             console.log(data)
             document.dispatchEvent(new CustomEvent(data['event'], {detail: data['data']}))
         };
 
-        const update_tray = (dices) => {
-            
-        }
-
-        
-        // <div class="drop-cubes">
-        //     <div class="points white-block">+30</div>
-        //     <div class="cubes white-block">
-        //         <img src="source/dices/test-dice.png">
-        //         <img src="source/dices/test-dice.png">
-        //         <img src="source/dices/test-dice.png">
-        //     </div>
-        // </div>
-
-        document.addEventListener("commit-step", e => {
-            data = e.detail
-            step = data.step
-            state.steps[state.steps.length - 1] = step
-        
-            clearInterval(anim)
-
-            document.querySelectorAll(".area img").forEach(dice => {
-                dice.src = `../source/faces/${dice.dice.face}.png`
-            })
-            
-            if (!step.is_bolt) {
-                if (state.player.is_active) {
-                    message("Клик по кубику", 3000)
-                    bottomMessage.innerHTML = "Сбор дома"
-                }
-                else {
-                    bottomMessage.innerHTML = `${state.active_player.first_name} собирает дом`
-                }
-            }
-            else {
-                if (state.player.is_active) {
-                    message("Это болт!", 3000)
-                    bottomMessage.innerHTML = "Ход переходит другому игроку"
-                }
-                else {
-                    bottomMessage.innerHTML = `${state.active_player.first_name} получил болт`
-                }
-            }
-        })
-
-        const main = async () => {
-
-
-            data = await afatch(`/game/state`)
-            state = (await data.json()).result
-
+        const set_header = () => {
             header.innerHTML = ""
             state.players.forEach(player => {
                 header.innerHTML += `<br>${player.is_owner ? "Хост" : "Игрок"}${player.id == state.player.id ? " (Вы)" : ""} ${player.first_name} - счет: ${player.score}`
             })
+        }
 
-            step = state.steps[state.steps.length - 1]
-
-            if (step.stage == 1) {
-        
-                state.dices.forEach(d => {
-                    dice = document.createElement("img")
-                    dice.dice = d
-                    dice.src = `../dices/${dice.dice.glb}/${Math.floor(Math.random() * 5 + 1)}.png`
-                    dice.style.width = '68px'
-                    //background-color: #d6e8ff;
-                    dice.style.borderRadius = "8px"
-                
-                    area.appendChild(dice)
-                })
-
-                if (state.player.is_active) {
-                    message("Клик по экрану", 3000)
-                    bottomMessage.innerHTML = "Ваш ход"
-                }
-                else {
-                    bottomMessage.innerHTML = `${state.active_player.first_name} делает ход`
-                }
-
-                anim = setInterval(() => {
-                    document.querySelectorAll(".area img").forEach(dice => {
-                        dice.src = `../dices/${dice.dice.glb}/${Math.floor(Math.random() * 5 + 1)}.png`
-                    })
-                }, 2000)
-            }
-            else {
-                state.dices.forEach(d => {
-                    dice = document.createElement("img")
-                    dice.src = `../dices/${d.glb}/${d.face}.png`
-                    dice.style.width = '68px'
-                    dice.style.borderRadius = "8px"
-                    dice.dice = d
-                
-                    area.appendChild(dice)
-                })
-            }
-            if (step.stage == 2) {
-                if (!step.is_bolt) {
-                    if (state.player.is_active) {
-                        message("Клик по кубику", 3000)
-                        bottomMessage.innerHTML = "Сбор дома"
-                    }
-                    else {
-                        bottomMessage.innerHTML = `${state.active_player.first_name} собирает дом`
-                    }
-                }
-                else {
-                    if (state.player.is_active) {
-                        message("Это болт!", 3000)
-                        bottomMessage.innerHTML = "Ход переходит другому игроку"
-                    }
-                    else {
-                        bottomMessage.innerHTML = `${state.active_player.first_name} получил болт`
-                    }
-                }
-            }
-
+        const set_score = () => {
             document.querySelector(".previous").innerText = state.active_player.score
-
-            area.addEventListener("click", async e => {
-
-                if (!state.player.is_active) return
-                if (state.steps[state.steps.length - 1].stage != 1) return
-
-                clearInterval(anim)
-
-                document.querySelectorAll(".area img").forEach(dice => {
-                    dice.src = `../dices/${dice.dice.glb}/${dice.dice.face}.png`
-                })
-                anwer = await afatch("/game/commit-step")
-                log(await anwer.json())
+            scores = []
+            log(state)
+            steps = state.steps.reverse()
+            for (const step of steps) {
+                log(step)
+                if (step.player_id != state.active_player.id) break
+                scores.unshift(step.score)
+            }
+            log(scores)
+            scores.filter(s => s != 0).forEach(score => {
+                document.querySelector(".previous").innerHTML += ` + <span>${score}</span>`
             })
         }
+
+        const set_area = () => {
+            area.innerHTML = ""
+            
+            state.dices.forEach(d => {
+                if (d.in_tray) return
+
+                let dice = document.createElement("div")
+
+                dice.dice = d
+                dice.style.width = '68px'
+                dice.style.height = '68px'
+                dice.style.margin = '0 2px'
+                dice.style.backgroundSize = "cover"
+                dice.style.borderRadius = "8px"
+
+                if (step.stage == 1) {
+                    setInterval(() => {
+                        dice.style.backgroundImage = `url('../dices/${dice.dice.glb}/${Math.floor(Math.random() * 5 + 1)}.png')`
+                    }, 500)
+                }
+                else {
+                    dice.style.backgroundImage = `url('../dices/${dice.dice.glb}/${dice.dice.face}.png')`
+                    if (d.in_combo == true) {
+                        dice.style.backgroundColor = `#e9e9e9`
+                    }
+                }
+
+
+                area.appendChild(dice)
+
+                if (step.stage == 2) {
+                    dice.onclick = async () => { 
+                        if (!state.player.is_active) {message("Ход другого игрока"); return}
+                        if (d.in_combo != true) {message("Это не комбинация"); return}
+
+                        let combo;
+
+                        for (const c of state.combinations) {
+                            log(3, c['dices'], d)
+                            if (contains(c['dices'], e => d.id == e.id)) {
+                                combo = c
+                                break
+                            }
+                        }
+                        log(state.combinations, combo)
+                        data = await afetch(`/game/tray-add`, {dices: combo.dices.map(d => d.id)})
+                        data = await data.json()
+                        log(data)
+                        state.dices = data.result.dices
+                        step.tray_updated = true
+
+                        set_area()
+                        set_message()
+                    }
+                }
+
+                tdices = state.dices.filter(e => e.in_tray)
+                tdices = tdices.sort(e => e.face)
+
+                tray.innerHTML = ""
+                result = []
+                log(tdices, state.combinations)
+                while (tdices.length != 0) {
+                    state.combinations.forEach(c => {
+                        is_combo = false
+                        c.dices.forEach(d => {
+                            indexof(tdices, d => {})
+                        })
+                    })
+                }
+
+
+                const faceCounts = tdices.reduce((acc, dice) => {
+                    acc[dice.face] = (acc[dice.face] || 0) + 1;
+                    return acc;
+                }, {});
+                const remainingFaces = { ...faceCounts };
+                const result = state.combinations.filter(subArray => {
+                    const hasMatch = subArray.dices.some(item => {
+                        if (remainingFaces[item.face] > 0) {
+                            remainingFaces[item.face] -= 1;
+                            return true;
+                        }
+                        return false;
+                    });
+                    return hasMatch;
+                });
+    
+                result.forEach(combos => {
+                    ds = ''
+                    for (const dice of combos['dices']) {
+                        ds += `<img src="../dices/${dice.glb}/${dice.face}.png">`
+                    }
+                    tray.innerHTML += `
+                        <div class="drop-cubes">
+                            <div class="points white-block">+${combos.score}</div>
+                            <div class="cubes white-block">
+                                ${ds}
+                            </div>
+                        </div>
+                    `
+                })
+            })
+        }
+
+        const set_message = () => {
+            //log(state)
+            if (step.stage == 1) {
+                bottomMessage.innerHTML = state.player.is_active ? "Клик по экрану" : `${state.active_player.first_name} делает ход`
+            }
+            if (step.stage == 2 && !step.tray_updated) {
+                bottomMessage.innerHTML = state.player.is_active ? "Клик по кубикам" : `${state.active_player.first_name} собирает кубики`
+            }
+            if (step.stage == 2 && step.tray_updated) {
+                bottomMessage.innerHTML = state.player.is_active ? "Можно перебросить кубики" : `${state.active_player.first_name} собирает кубики`
+            }
+        }
+
+
+        // обрабатывает ивенты от сервера
+        document.addEventListener("redirect", e => {
+            window.location.href = e.detail.target
+        });
+
+        document.addEventListener("commit-step", e => {
+            state.steps.pop()
+            state.steps.push(e.detail.step)
+            step = e.detail.step
+            
+            set_header()
+            set_area()
+        })
+
+        document.addEventListener("dices-update", e => {
+            state.dices = e.detail.dices
+            set_area()
+        })
+
+        document.addEventListener("change-player", e => {
+            state.active_player = e.detail.active_player
+            state.players[indexof(state.players, p => p.id == e.detail.player.id)] = e.detail.player
+            
+            set_score()
+            set_header()
+
+            state.player.is_active = state.active_player.id == state.player.id
+        })
+        
+        document.addEventListener("new-step", e => {
+            // log(2, e.detail)
+            state.steps.push(e.detail.step)
+            state.combinations = e.detail.combinations
+            step = e.detail.step
+        
+            set_area()
+            set_message()
+            set_header()
+            set_score()
+        })
+        
+        document.addEventListener("score-update", e => {
+            step.score = e.detail.score
+            state.steps.pop()
+            state.steps.push(step)
+            set_score()
+        })
+
+        const main = async () => {
+
+            data = await afetch(`/game/state`)
+            state = (await data.json()).result
+            step = state.steps[state.steps.length - 1]
+
+            set_header()
+            set_area()
+            set_message()
+            set_score()
+        }
+
+
+        // немного игровой логики
+        area.addEventListener("click", async e => {
+            if (step.player_id != state.player.id) {message("Ход другого игрока"); return}
+            if (step.stage != 1) return
+
+            state.player.is_active = true
+
+            step.stage = 2
+            set_area()
+
+            anwer = await afetch("/game/commit-step")
+        })
+
+        document.querySelector("#stop").addEventListener("click", e => {
+            if (!state.player.is_active) {message("Ход другого игрока"); return}
+            if (!step.tray_updated) {message("Нужно пополнить трей!"); return}
+
+            afetch(`/game/end-step`)
+        })
+
+        document.querySelector("#more").addEventListener("click", e => {
+            if (!state.player.is_active) {message("Ход другого игрока"); return}
+            if (!step.tray_updated) {message("Нужно пополнить трей!"); return}
+            log(state)
+            afetch(`/game/new-step`)
+        })
         
         main()
     </script>

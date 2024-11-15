@@ -27,20 +27,24 @@
     <div class="wrapper fade-in priority-1">
         <div class="wallet-bg hidden"></div>
         <div class="wallet hidden">
-            <div class="wallet-item connect">
-                <flex>
-                    Подключите кошелек с артефактами
-                    <img src="source/dices/2.png">
-                </flex>
-                <button class="primary gradient" id="connect-wallet">Подключить Кошелек</button>
-            </div>
-            <div class="wallet-item is-connected">
-                <flex>
-                    Подключен: {{wallet_id}}
-                    <font>Игровые артефакты не обнаружены</font>
-                </flex>
-                <button class="primary gradient" id="connect-wallet">Отключить Кошелек</button>
-            </div>
+            {% if not client.wallet %}
+                <div class="wallet-item connect">
+                    <flex>
+                        Подключите кошелек с артефактами
+                        <img src="source/dices/2.png">
+                    </flex>
+                    <button class="primary gradient connect-wallet">Подключить Кошелек</button>
+                    <!--<div id="ton-connect"></div> -->
+                </div>
+            {% else %}
+                <div class="wallet-item is-connected">
+                    <flex>
+                        Подключен: {{wallet_id}}
+                        <font>Игровые артефакты не обнаружены</font>
+                    </flex>
+                    <button class="primary gradient" onclick="afatch('/wallet/update', {address: null}); tonConnectUI.disconnect(); window.location.reload();">Отключить Кошелек</button>
+                </div>
+            {% endif %}
         </div>
         <flex class="absolute-top">
             <button class="skins-btn" id="skins">
@@ -78,5 +82,23 @@
             Правила игры
         </button>
     </div>
+    <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
+    <script>
+
+        const afatch = (input, body = {}) => {
+            return fetch(input, {method: 'POST', body: JSON.stringify(body)})
+        }
+
+        const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
+            manifestUrl: 'https://holey.opolo.me/tonconnect-manifest.json'
+        });
+        
+        document.querySelector(".connect-wallet").addEventListener("click", async e => {
+            let wallet = await tonConnectUI.connectWallet();
+            await afatch("/wallet/update", {address: wallet.account.address})
+            window.location.reload()
+        })
+
+    </script>
 </body>
 </html>
