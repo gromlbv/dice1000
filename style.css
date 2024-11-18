@@ -729,7 +729,7 @@ body.game>*{
     max-width: 85px;
 }
 .drop-cubes-wr{
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     width: 100%;
     display: flex;
     flex-direction: row;

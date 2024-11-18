@@ -13,16 +13,16 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-    <link rel="stylesheet" href="message.css">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../message.css">
+    <link rel="stylesheet" href="../style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
     
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" defer></script>
-    <script src="message.js" defer></script>
-    <script src="script.js" defer></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" defer></script>
+    <script src="../message.js" defer></script>
+    <script src="../script.js" defer></script>
 
     <title>Lobby - DICE1000</title>
 </head>
@@ -30,15 +30,15 @@
     <div class="wrapper fade-in priority-1">
         <flex class="absolute-top relative">
             <button class="skins-btn">
-                <img src="source/dices/2.png" alt="">
-                <div onclick="fetch('/leave?{{room.room_key}}', {method: 'POST'}); window.location.href = `/`">{% if room.owner_id == client.id %}Распустить комнату{% else %}Покинуть комнату{% endif %}</div>
+                <img src="../source/dices/2.png" alt="">
+                <div onclick="fetch('/lobby/leave?{{room.room_key}}', {method: 'POST'}); window.location.href = `/`">{% if room.owner_id == client.id %}Распустить комнату{% else %}Покинуть комнату{% endif %}</div>
             </button>
             <flex class="header-user">
                 <flex>
                     <div class="data-username">{{client.first_name}}</div>
                     <div class="data-balance">{{client.balance}} $CHIP</div>
                 </flex>
-                <img src="images/{{client.avatar}}">
+                <img src="{{client.avatar}}">
             </flex>
         </flex>
         <flex class="create-flex">
@@ -53,14 +53,14 @@
                 <label for="player-flex">Игроки</label>
                 {% for player in players %}
                     <flex class="player-flex {% if player.is_owner %}gradient{% endif %}" id="player{{player.client.id}}">
-                        <img src="images/{{player.client.avatar}}">
+                        <img src="{{player.client.avatar}}">
                         <flex class="player-name-wrapper">
                             {% if player.client_id == client.id %}<div class="player-role">Я</div>{% endif %}
                             <div class="player-username">{{player.client.first_name}}</div>
                         </flex>
                         <div class="data-role">{% if player.is_owner %}Хост{% else %}Игрок{% endif %}</div>
                         <div class="player-right-btn">
-                            <img src="source/icons/user.svg">
+                            <img src="../source/icons/user.svg">
                         </div>
                     </flex>
                 {% endfor %}
@@ -68,7 +68,7 @@
         </flex>
         <flex class="absolute-bottom fade-in priority-3">
             <button class="secondary share">
-                <img src="source/icons/share.svg">
+                <img src="../source/icons/share.svg">
                 Поделиться игрой
             </button>
             {% if room.owner_id == client.id %}
@@ -80,21 +80,36 @@
 
     </div>
     <script>
+        // sse обработчик
+        let events = null;
+        let eventList = []; // нужно чтобы восстановить обработчики после реконекта
         
-        const eventSource = new EventSource('/listen');
+        const initSSE = () => {
+            if (events == null || events.readyState == 2) {
+                events = new EventSource('/listen?channel={{room.room_key}}');
+                events.onerror = function(e) {
+                    if (events.readyState == 2) setTimeout(initSSE, 500);
+                };
+                eventList.forEach(ev => {
+                    events.addEventListener(ev[0], (msg) => {
+                        const data = JSON.parse(msg.data);
+                        ev[1](data.data);
+                    });
+                })
+            }
+        }
+        const handleEvent = (eventType, callback) => { // ивенты добавляются в обработку после initSSE
+            eventList.push([eventType, callback])
+        }
 
-        eventSource.onmessage = (e) => {
-            data = JSON.parse(e.data)
-            console.log(data)
-            document.dispatchEvent(new CustomEvent(data['event'], {detail: data['data']}))
-        };
+        fetch("/auth", {method: "POST", body: window.Telegram.WebView.initParams.tgWebAppData})
 
-        document.addEventListener("new_player", (msg) => {
-            player = msg.detail.player
+        handleEvent("new_player", (msg) => {
+            player = msg.player
             elem = document.querySelector(".gradient.player-flex").cloneNode(true)
             elem.setAttribute("id", `player${player.id}`)
             elem.classList.remove("gradient")
-            elem.querySelector("img").setAttribute("src", `images/${player.avatar}`)
+            elem.querySelector("img").setAttribute("src", player.avatar)
             elem.querySelector(".player-username").innerText = player.name
             elem.querySelector(".data-role").innerText = "Игрок"
             elem.querySelector(".player-role").remove()
@@ -109,8 +124,8 @@
             }, 100)
         });
         
-        document.addEventListener("leave_player", (msg) => {
-            player = msg.detail.player
+        handleEvent("leave_player", (msg) => {
+            player = msg.player
             document.querySelector(`#player${player.id}`).style.height = 0
             document.querySelector(`#player${player.id}`).style.opacity = 0
             document.querySelector(".players_count").innerText = parseInt(document.querySelector(".players_count").innerText) - 1
@@ -119,16 +134,16 @@
             }, 250)
         });
 
-        document.addEventListener("redirect", (msg) => {
-            window.location.href = msg.detail.target
+        handleEvent("redirect", (msg) => {
+            window.location.href = msg.target
         });
         
-        document.addEventListener("update_bet", (msg) => {
-            document.querySelector(".bet").value = msg.detail.bet
+        handleEvent("update_bet", (msg) => {
+            document.querySelector(".bet").value = msg.bet
         });
         
-        document.addEventListener("update_name", (msg) => {
-            document.querySelector(".game-name").value = msg.detail.name
+        handleEvent("update_name", (msg) => {
+            document.querySelector(".game-name").value = msg.name
         });
 
         // {% if room.owner_id == client.id %} // КОММЕНТ НЕ УДАЛЯТЬ
@@ -137,7 +152,7 @@
 
         document.querySelector(".bet").addEventListener("input", async e => {
 
-            result = await fetch(`/game/set/bet?{{room.room_key}}`, {method: 'POST', body: JSON.stringify({bet: parseInt(document.querySelector(".bet").value)})});
+            result = await fetch(`/lobby/set/bet?{{room.room_key}}`, {method: 'POST', body: JSON.stringify({bet: parseInt(document.querySelector(".bet").value)})});
             if (result.status == 400) {
                 // значит сумма слишком большая
                 document.querySelector(".bet").value = await result.text()
@@ -147,7 +162,7 @@
             clearTimeout(weitorname)
             weitorname = setTimeout(() => {
 
-                fetch(`/game/set/name?{{room.room_key}}`, {method: 'POST', body: JSON.stringify({name: document.querySelector(".game-name").value})});
+                fetch(`/lobby/set/name?{{room.room_key}}`, {method: 'POST', body: JSON.stringify({name: document.querySelector(".game-name").value})});
     
             }, 200)
         })
@@ -157,7 +172,7 @@
                 message("Мало игроков!")
             }
             else {
-                fetch(`/game/start`, {method: 'POST', body: JSON.stringify({"room_key": "{{room.room_key}}"})})
+                fetch(`/lobby/start`, {method: 'POST', body: JSON.stringify({"room_key": "{{room.room_key}}"})})
             }
         })
 
@@ -166,6 +181,8 @@
         document.querySelector(".share").addEventListener("click", e => {
             window.open(`https://telegram.me/share/url?url=https://t.me/THSdice_bot?start={{room.room_key}}&text=` + "Присоединяйся к игре!", '_blank');
         })
+
+        initSSE()
     </script>
 
 </body>

@@ -19,7 +19,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
  
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="script.js"></script>
     <title>Main Menu - DICE1000</title>
 </head>
@@ -42,7 +42,7 @@
                         Подключен: {{wallet_id}}
                         <font>Игровые артефакты не обнаружены</font>
                     </flex>
-                    <button class="primary gradient" onclick="afatch('/wallet/update', {address: null}); tonConnectUI.disconnect(); window.location.reload();">Отключить Кошелек</button>
+                    <button class="primary gradient" onclick="afetch('/wallet/update', {address: null}); tonConnectUI.disconnect(); window.location.reload();">Отключить Кошелек</button>
                 </div>
             {% endif %}
         </div>
@@ -56,7 +56,7 @@
                     <div class="data-username">{{client.first_name}}</div>
                     <div class="data-balance">{{client.balance}} $CHIP</div>
                 </flex>
-                <img id="profile-pic-redirect" src="images/{{client.avatar}}">
+                <img id="profile-pic-redirect" src="{{client.avatar}}">
             </flex>
         </flex>
         <div class="middle-flex fade-in priority-2">
@@ -85,7 +85,7 @@
     <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
     <script>
 
-        const afatch = (input, body = {}) => {
+        const afetch = (input, body = {}) => {
             return fetch(input, {method: 'POST', body: JSON.stringify(body)})
         }
 
@@ -95,7 +95,7 @@
         
         document.querySelector(".connect-wallet").addEventListener("click", async e => {
             let wallet = await tonConnectUI.connectWallet();
-            await afatch("/wallet/update", {address: wallet.account.address})
+            await afetch("/wallet/update", {address: wallet.account.address})
             window.location.reload()
         })
 

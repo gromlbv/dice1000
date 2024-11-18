@@ -13,14 +13,14 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="message.css">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../message.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
  
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
     <title>Game - DICE1000</title>
 </head>
@@ -43,8 +43,34 @@
         </div>
     </div>
     <div class="home"></div>
-    <script src="message.js"></script>
+    <script src="../message.js"></script>
+    <script src="../dices.js"></script>
     <script>
+
+        // sse обработчик
+        let events = null;
+        let eventList = []; // нужно чтобы восстановить обработчики после реконекта
+        
+        const initSSE = () => {
+            if (events == null || events.readyState == 2) {
+                events = new EventSource('/listen?channel={{room.room_key}}');
+                events.onerror = function(e) {
+                    if (events.readyState == 2) setTimeout(initSSE, 500);
+                };
+                eventList.forEach(ev => {
+                    events.addEventListener(ev[0], (msg) => {
+                        const data = JSON.parse(msg.data);
+                        ev[1](data.data);
+                    });
+                })
+            }
+        }
+        const handleEvent = (eventType, callback) => { // ивенты добавляются в обработку после initSSE
+            eventList.push([eventType, callback])
+        }
+
+        // обновляем данные о клиенте
+        fetch("/auth", {method: "POST", body: window.Telegram.WebView.initParams.tgWebAppData})
 
         // набор вспомогательных функций
         const log = console.log
@@ -52,13 +78,6 @@
             // body в формате словаря обязательно
             body["room_key"] = "{{room.room_key}}"
             return fetch(input, {method: 'POST', body: JSON.stringify(body)})
-        }
-        const contains = (iter, check, offset = 0) => {
-            // iter - итерируемая последовательность; check - функция которая обрабатываеет начало 
-            for (const i of iter.slice(offset)) {
-                if (check(i)) return true
-            }
-            return false
         }
         const indexof = (iter, check, offset = 0) => {
             let i = 0
@@ -68,153 +87,134 @@
             }
             return -1
         }
+        const contains = (iter, check, offset = 0) => {
+            // iter - итерируемая последовательность; check - функция которая обрабатываеет начало 
+            for (const i of iter.slice(offset)) {
+                if (check(i)) return true
+            }
+            return false
+        }
      
-        let state;
-        let step;
+        let step; // текущий шаг
+        let state; // текущее состояние игры
 
-        const header = document.querySelector(".head")
         const area = document.querySelector(".area")
         const tray = document.querySelector(".drop-cubes-wr")
+        const header = document.querySelector(".head")
         const bottomMessage = document.querySelector(".bottom-wr > .message")
 
-        const eventSource = new EventSource('/listen');
-        
-        eventSource.onmessage = (e) => { // слушаетель ивентов от сервера
-            data = JSON.parse(e.data)
-            console.log(data)
-            document.dispatchEvent(new CustomEvent(data['event'], {detail: data['data']}))
-        };
-
-        const set_header = () => {
-            header.innerHTML = ""
-            state.players.forEach(player => {
-                header.innerHTML += `<br>${player.is_owner ? "Хост" : "Игрок"}${player.id == state.player.id ? " (Вы)" : ""} ${player.first_name} - счет: ${player.score}`
-            })
-        }
-
-        const set_score = () => {
-            document.querySelector(".previous").innerText = state.active_player.score
-            scores = []
-            log(state)
-            steps = state.steps.reverse()
-            for (const step of steps) {
-                log(step)
-                if (step.player_id != state.active_player.id) break
-                scores.unshift(step.score)
-            }
-            log(scores)
-            scores.filter(s => s != 0).forEach(score => {
-                document.querySelector(".previous").innerHTML += ` + <span>${score}</span>`
-            })
-        }
-
-        const set_area = () => {
+        const set_area = () => { // организует отображение кубиков на игровом поле и в трее
             area.innerHTML = ""
-            
-            state.dices.forEach(d => {
-                if (d.in_tray) return
+                
+            log(step, state)
 
-                let dice = document.createElement("div")
+            state.area.forEach(d => {
 
-                dice.dice = d
-                dice.style.width = '68px'
-                dice.style.height = '68px'
-                dice.style.margin = '0 2px'
-                dice.style.backgroundSize = "cover"
-                dice.style.borderRadius = "8px"
+                let dice = get_dice(d)
 
-                if (step.stage == 1) {
-                    setInterval(() => {
-                        dice.style.backgroundImage = `url('../dices/${dice.dice.glb}/${Math.floor(Math.random() * 5 + 1)}.png')`
-                    }, 500)
+                if (step.stage == 1) { // тосуем кубики в случайном порядке
+                    setInterval(() => {dice.style.backgroundImage = `url('../dices/${dice.dice.glb}/${Math.floor(Math.random() * 5 + 1)}.png')`}, 500)
                 }
                 else {
-                    dice.style.backgroundImage = `url('../dices/${dice.dice.glb}/${dice.dice.face}.png')`
-                    if (d.in_combo == true) {
+                    dice.style.backgroundImage = `url('../dices/${dice.dice.glb}/${dice.dice.face}.png')` // здесь определяется лицевая сторона кубика
+                    if (d.in_combo) { // подсвечиваем кубики с комбинацией
                         dice.style.backgroundColor = `#e9e9e9`
                     }
                 }
-
 
                 area.appendChild(dice)
 
                 if (step.stage == 2) {
                     dice.onclick = async () => { 
                         if (!state.player.is_active) {message("Ход другого игрока"); return}
-                        if (d.in_combo != true) {message("Это не комбинация"); return}
+                        if (!d.in_combo) {message("Это не комбинация"); return}
 
                         let combo;
+                        
+                        combinations = findCombo([...state.area, ...state.tray])
 
-                        for (const c of state.combinations) {
-                            log(3, c['dices'], d)
+                        for (const c of combinations) { // определяем какой комбинации соответствует кубик
                             if (contains(c['dices'], e => d.id == e.id)) {
                                 combo = c
                                 break
                             }
                         }
-                        log(state.combinations, combo)
-                        data = await afetch(`/game/tray-add`, {dices: combo.dices.map(d => d.id)})
-                        data = await data.json()
-                        log(data)
-                        state.dices = data.result.dices
-                        step.tray_updated = true
+                        
+                        state.tray = state.tray.filter(key => {return !contains(combo.dices, d => d.id == key.id)})
+                        state.tray = [...state.tray, ...combo.dices]
+                        
+                        state.area = state.area.filter(key => {return !contains(state.tray, d => d.id == key.id)})
+
+                        if (state.area.length == 0) { // трей заполняется и игрок не может завершить ход
+                            // document.querySelector("#stop").style.opacity = "0.6"
+                        }
 
                         set_area()
                         set_message()
+
+                        afetch(`/game/tray-add`, {dices: combo.dices.map(d => d.id)})
                     }
                 }
+            })
 
-                tdices = state.dices.filter(e => e.in_tray)
-                tdices = tdices.sort(e => e.face)
+            // тут собирается содержимое трея
+            tdices = state.tray.sort(e => e.face)
+            tray.innerHTML = ""
+            
+            in_tray = []
+            score = 0
 
-                tray.innerHTML = ""
-                result = []
-                log(tdices, state.combinations)
-                while (tdices.length != 0) {
-                    state.combinations.forEach(c => {
-                        is_combo = false
-                        c.dices.forEach(d => {
-                            indexof(tdices, d => {})
-                        })
-                    })
+            combinations = findCombo(tdices)
+            log(step)
+            combinations.forEach(combos => {
+                ds = ''
+                dices = ''
+                for (const dice of combos['dices']) {
+                    if (contains(in_tray, d => dice.id == d)) return
+                    in_tray.push(dice.id)
+                    dices += `<img src="../dices/${dice.glb}/${dice.face}.png">`
                 }
-
-
-                const faceCounts = tdices.reduce((acc, dice) => {
-                    acc[dice.face] = (acc[dice.face] || 0) + 1;
-                    return acc;
-                }, {});
-                const remainingFaces = { ...faceCounts };
-                const result = state.combinations.filter(subArray => {
-                    const hasMatch = subArray.dices.some(item => {
-                        if (remainingFaces[item.face] > 0) {
-                            remainingFaces[item.face] -= 1;
-                            return true;
-                        }
-                        return false;
-                    });
-                    return hasMatch;
-                });
-    
-                result.forEach(combos => {
-                    ds = ''
-                    for (const dice of combos['dices']) {
-                        ds += `<img src="../dices/${dice.glb}/${dice.face}.png">`
-                    }
-                    tray.innerHTML += `
-                        <div class="drop-cubes">
-                            <div class="points white-block">+${combos.score}</div>
-                            <div class="cubes white-block">
-                                ${ds}
-                            </div>
+                ds += dices
+                score += combos.score
+                tray.innerHTML += `
+                    <div class="drop-cubes">
+                        <div class="points white-block">+${combos.score}</div>
+                        <div class="cubes white-block">
+                            ${ds}
                         </div>
-                    `
-                })
+                    </div>
+                `
             })
         }
 
-        const set_message = () => {
-            //log(state)
+        const get_dice = (d) => { // возвращает обьект дайса
+            let dice = document.createElement("div")
+
+            dice.dice = d
+            dice.style.width = '68px'
+            dice.style.height = '68px'
+            dice.style.margin = '0 2px'
+            dice.style.backgroundSize = "cover"
+            dice.style.borderRadius = "8px"
+
+            return dice
+        }
+
+        const set_score = () => { // устанавливает поле со счетом игры
+            document.querySelector(".previous").innerText = state.active_player.score
+            state.steps.filter(s => s.score != 0).forEach(st => {
+                document.querySelector(".previous").innerHTML += ` + <span>${st.score}</span>`
+            })
+        } 
+
+        const set_header = () => { // отрисовывает верхний бар навигации
+            header.innerHTML = ""
+            state.players.forEach(player => {
+                header.innerHTML += `<br>${player.is_owner ? "Хост" : "Игрок"}${player.id == state.player.id ? " (Вы)" : ""} ${player.first_name} - счет: ${player.score}`
+            })
+        }
+
+        const set_message = () => { // сообщение которое чуть выше нижнего трея
             if (step.stage == 1) {
                 bottomMessage.innerHTML = state.player.is_active ? "Клик по экрану" : `${state.active_player.first_name} делает ход`
             }
@@ -226,69 +226,57 @@
             }
         }
 
-
         // обрабатывает ивенты от сервера
-        document.addEventListener("redirect", e => {
-            window.location.href = e.detail.target
+
+        handleEvent("redirect", e => {
+            window.location.href = e.target
         });
 
-        document.addEventListener("commit-step", e => {
-            state.steps.pop()
-            state.steps.push(e.detail.step)
-            step = e.detail.step
-            
-            set_header()
-            set_area()
-        })
+        handleEvent("message", e => {
+            if (e.type == "bolt") {
+                message("Оу, кажется это болт!", 1000)
+                setTimeout(() => message("Ход получает следующий игрок!"), 1300)
+            } 
+        });
 
-        document.addEventListener("dices-update", e => {
-            state.dices = e.detail.dices
-            set_area()
-        })
+        handleEvent("state-update", e => {
+            let area_changed = false
+            let new_step = false
 
-        document.addEventListener("change-player", e => {
-            state.active_player = e.detail.active_player
-            state.players[indexof(state.players, p => p.id == e.detail.player.id)] = e.detail.player
-            
-            set_score()
-            set_header()
+            if (e.active_player != undefined) {
+                state.active_player = e.active_player
+            }
+            if (e.players != undefined) {
+                state.players = e.players
+                set_header()
+            }
+            if (e.area != undefined) {
+                state.area = e.area
+                area_changed = true
+            }
+            if (e.tray != undefined) {
+                state.tray = e.tray
+                area_changed = true
+            }
+            if (e.steps != undefined) {
+                state.steps = e.steps
+                step = state.steps[state.steps.length - 1]
+                area_changed = true
+            }
+
+            if (area_changed && (state.active_player.id != state.player.id || !state.player.is_active)) { // это нужно чтобы не дублировать вызов
+                state.player.is_active = state.active_player.id == state.player.id
+                set_area()
+            }
 
             state.player.is_active = state.active_player.id == state.player.id
-        })
-        
-        document.addEventListener("new-step", e => {
-            // log(2, e.detail)
-            state.steps.push(e.detail.step)
-            state.combinations = e.detail.combinations
-            step = e.detail.step
-        
-            set_area()
+
+            set_score()
             set_message()
-            set_header()
-            set_score()
         })
-        
-        document.addEventListener("score-update", e => {
-            step.score = e.detail.score
-            state.steps.pop()
-            state.steps.push(step)
-            set_score()
-        })
-
-        const main = async () => {
-
-            data = await afetch(`/game/state`)
-            state = (await data.json()).result
-            step = state.steps[state.steps.length - 1]
-
-            set_header()
-            set_area()
-            set_message()
-            set_score()
-        }
-
 
         // немного игровой логики
+        
         area.addEventListener("click", async e => {
             if (step.player_id != state.player.id) {message("Ход другого игрока"); return}
             if (step.stage != 1) return
@@ -311,10 +299,25 @@
         document.querySelector("#more").addEventListener("click", e => {
             if (!state.player.is_active) {message("Ход другого игрока"); return}
             if (!step.tray_updated) {message("Нужно пополнить трей!"); return}
-            log(state)
-            afetch(`/game/new-step`)
+    
+            afetch(`/game/new-step`).then(r => set_area()) // дожидаемся получения нового шага и обновляем игровое поле
         })
         
+        
+        const main = async () => {
+
+            data = await afetch(`/game/state`)
+            data = await data.json()
+            state = data.result
+            step = state.steps[state.steps.length - 1]
+
+            set_header()
+            set_area()
+            set_message()
+            set_score()
+        }
+
+        initSSE()
         main()
     </script>
 </body>

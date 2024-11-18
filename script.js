@@ -92,13 +92,15 @@ $(document).ready(function() {
     const wallet_item = document.querySelector('.wallet-item');
 
     
-    skins.addEventListener('click', toggleVisibility);
-    wallet_bg.addEventListener('click', toggleVisibility);
-    wallet.addEventListener('click', (event) => {
-        if (isClickOnMargin(event, wallet_item)) {
-            toggleVisibility();
-        }
-    });
+    if (skins != null) {
+        skins.addEventListener('click', toggleVisibility);
+        wallet_bg.addEventListener('click', toggleVisibility);
+        wallet.addEventListener('click', (event) => {
+            if (isClickOnMargin(event, wallet_item)) {
+                toggleVisibility();
+            }
+        });
+    }
     
     function toggleVisibility() {
         wallet.classList.toggle('visible');
