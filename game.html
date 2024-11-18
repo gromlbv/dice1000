@@ -47,6 +47,8 @@
     <script src="../dices.js"></script>
     <script>
 
+        window.Telegram.WebApp.expand()
+        
         // sse обработчик
         let events = null;
         let eventList = []; // нужно чтобы восстановить обработчики после реконекта

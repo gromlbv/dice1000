@@ -26,6 +26,8 @@
     <header>Добро пожаловать<span class="name" style="opacity: 0; transition-duration: .3s;"></span></header>
     <div class="message" style="opacity: 0; transition-duration: .3s;"></div>
     <script>
+        window.Telegram.WebApp.expand()
+        
         const main = async () => {
             data = await fetch("/auth", {method: "POST", body: window.Telegram.WebView.initParams.tgWebAppData})
             setTimeout(() => {
