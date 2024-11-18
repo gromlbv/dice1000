@@ -71,7 +71,7 @@ $(document).ready(function() {
     }
     $('#rules-redirect').click(function() {
         removeShowClass(fadeInElements, 100);
-        window.location.href = 'rules.html';
+        window.location.href = '/rules';
     });
     $('#create-game-redirect').click(function() {
         removeShowClass(fadeInElements, 100);
