@@ -791,3 +791,111 @@ body.game>*{
     border-radius: 4px;
     background: rgba(255, 255, 255, 0.24);
 }
+
+
+
+
+
+.head{
+    overflow-y: hidden;
+    overflow-x: auto;
+
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+
+    width: calc(100% - 20px);
+    min-height: 115px;
+
+    margin: 10px 20px;
+}
+
+.player-item{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    gap: 2px;
+
+    padding: 6px;
+
+    border-radius: 12px;
+    background: #E3EAFF;
+}
+
+.player-item > .pic-div{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 62px;
+    width: 100%;
+}
+.pic-div > img{
+    width: 62px;
+    height: 62px;
+    border-radius: 50%;
+    padding: 0 6px;
+}
+.pic-div > .barrel-wr{
+    position: absolute;
+    margin-top: 40px;
+
+    display: flex;
+    height: 17px;
+    min-width: 18px;
+    padding: 0px 2px;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5px;
+
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(2.5px);
+    
+    color: #FFF;
+    font-size: 12px;
+    font-weight: 500;
+}
+.player-item > span{
+    color: #4579FF;
+    font-family: Inter;
+    font-size: 14px;
+    font-weight: 600;
+}
+.player-item.active{
+    background: #4579FF;
+}
+.player-item.active > span{
+    color: #FFF;
+}
+
+
+.player-head-info{
+    display: flex;
+    flex-direction: row;
+    gap: 3px;
+}
+.player-head-info > div{
+    display: flex;
+    height: 18px;
+    padding: 1px 4px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+
+    border-radius: 6px;
+    background: #FFF;
+}
+.player-head-info > .bolts-wr{
+    display: flex;
+    flex-direction: row;
+    gap: -5px;
+}
+.bolts-wr > img{
+    margin-left: -16px;
+    width: 14px;
+    height: 14px;
+}
+.bolts-wr > img:first-child{
+    margin-left: 0;
+}
