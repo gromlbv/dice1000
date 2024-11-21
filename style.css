@@ -805,7 +805,7 @@ body.game>*{
     gap: 8px;
 
     width: calc(100% - 20px);
-    min-height: 115px;
+    min-height: 114px;
 
     margin: 10px 20px;
 }
