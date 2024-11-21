@@ -25,35 +25,7 @@
     <title>Game - DICE1000</title>
 </head>
 <body class="game">
-    <div class="head">
-        <div class="player-item active">
-            <div class="pic-div">
-                <img src="source/profile-pic.png">
-            </div>
-            <span>Brain</span>
-            <flex class="player-head-info">
-                <div class="points-wr">640</div>
-            </flex>
-        </div>
-        <div class="player-item">
-            <div class="pic-div">
-                <img src="source/profile-pic.png">
-                <div class="barrel-wr">
-                    <img src="source/icons/barrel-mini.svg">
-                    1
-                </div>
-            </div>
-            <span>Alex</span>
-            <flex class="player-head-info">
-                <div class="points-wr">332</div>
-                <div class="bolts-wr">
-                    <img src="source/icons/bolt.svg">
-                    <img src="source/icons/bolt.svg">
-                    <img src="source/icons/bolt.svg">                    
-                </div>
-            </flex>
-        </div>
-    </div>
+    <div class="head"></div>
     <div class="area"></div>
     <div class="bottom-wr">
         <div class="message"></div>
@@ -195,7 +167,6 @@
             score = 0
 
             combinations = findCombo(tdices)
-            log(step)
             combinations.forEach(combos => {
                 ds = ''
                 dices = ''
@@ -235,12 +206,57 @@
             state.steps.filter(s => s.score != 0).forEach(st => {
                 document.querySelector(".previous").innerHTML += ` + <span>${st.score}</span>`
             })
+
+            tdices = state.tray.sort(e => e.face)
+
+            in_tray = []
+            score = 0
+
+            combinations = findCombo(tdices)
+            combinations.forEach(combos => {
+                for (const dice of combos['dices']) {
+                    if (contains(in_tray, d => dice.id == d)) return
+                    in_tray.push(dice.id)
+                }
+                score += combos.score
+            })
+            if (score != 0) {
+                document.querySelector(".previous").innerHTML += ` + <span>${score}</span>`
+            }
         } 
 
         const set_header = () => { // отрисовывает верхний бар навигации
+
+
+
             header.innerHTML = ""
-            state.players.forEach(player => {
-                header.innerHTML += `<br>${player.is_owner ? "Хост" : "Игрок"}${player.id == state.player.id ? " (Вы)" : ""} ${player.first_name} - счет: ${player.score}`
+            state.players.forEach(player => { // сейчас просто перезаписываем верхний бар целиком
+                if (player.bolts % 3 != 0) {
+                    bolts = '<div class="bolts-wr">'
+                    log(player.bolts % 3)
+                    for (let i = 0; i < player.bolts % 3; i++) {
+                        bolts += '<img src="../source/icons/bolt.svg">'
+                    }
+                    bolts += '</div>'
+                }
+                else bolts = ''
+                
+                barrel = '<img src="../source/icons/barrel-mini.svg">1'
+                barrel = ''
+
+                header.innerHTML += `
+                    <div class="player-item ${player.id == state.active_player.id ? 'active' : ''}">
+                        <div class="pic-div">
+                            <img src="${player.avatar}">
+                            <div class="barrel-wr">${barrel}</div>
+                        </div>
+                        <span>${player.first_name}</span>
+                        <flex class="player-head-info">
+                            <div class="points-wr">${player.score}</div>
+                            ${bolts}
+                        </flex>
+                    </div>`
+                // header.innerHTML += `<br>${player.is_owner ? "Хост" : "Игрок"}${player.id == state.player.id ? " (Вы)" : ""} ${player.first_name} - счет: ${player.score}`
             })
         }
 
