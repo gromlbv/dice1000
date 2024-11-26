@@ -154,7 +154,7 @@
                         set_area()
                         set_message()
 
-                        afetch(`/game/tray-add`, {dices: combo.dices.map(d => d.id)})
+                        afetch(`/game/tray-add`, {dices: combo.dices.map(d => d.dbid)})
                     }
                 }
             })

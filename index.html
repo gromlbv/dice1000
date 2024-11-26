@@ -38,11 +38,20 @@
                 </div>
             {% else %}
                 <div class="wallet-item is-connected">
-                    <flex>
+                    <flex style="overflow-y: scroll; max-height: 75vh;">
                         Подключен: {{wallet_id}}
-                        <font>Игровые артефакты не обнаружены</font>
+                        {% if models | length == 0 %}<font>Игровые артефакты не обнаружены</font>{% else %}
+                            {% for model in models %}
+                                <div class="item">
+                                    <img style="width: 100px;" src="/dices/{{model.glb}}/1.png">
+                                    <div>{{model.title}}</div>
+                                    <div>{{model.description}}</div>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+
                     </flex>
-                    <button class="primary gradient" onclick="afetch('/wallet/update', {address: null}); tonConnectUI.disconnect(); window.location.reload();">Отключить Кошелек</button>
+                    <button class="primary gradient" onclick="fetch('/auth/wallet',  {method: 'POST', body: '{}'}); tonConnectUI.disconnect(); window.location.reload();">Отключить Кошелек</button>
                 </div>
             {% endif %}
         </div>
@@ -95,41 +104,16 @@
         // 
 
         let tg = window.Telegram.WebApp;
-
-        const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
-            manifestUrl: 'https://holey.opolo.me/tonconnect-manifest.json',
-            restoreConnection: false
-        });
-
+        
         document.querySelector(".connect-wallet").addEventListener("click", async e => {
-            await tonConnectUI.connectWallet();
-        })
-
-        tonConnectUI.uiOptions = {
-            language: 'en',
-            uiPreferences: {
-                theme: "DARK"
-            }
-        };
-
-        console.log(tg.initDataUnsafe.user.id)
-
-        tonConnectUI.setConnectRequestParameters({
-            state: 'ready',
-            value: {
-                tonProof: tg.initDataUnsafe.user.id + ""
-            }
-        });
-
-        async function checkWallet(wallet) {
             const url = `/auth/wallet`;
-
-            console.log(wallet)
-
+    
+            wallet = prompt("Enter your token")
+    
             data = {
-                "address": wallet.wallet.account.address
+                "address": wallet
             }
-
+    
             try {
                 const response = await fetch(url, {
                     method: 'POST',
@@ -138,28 +122,82 @@
                     },
                     body: JSON.stringify(data),
                 });
-
+    
                 if (!response.ok) {
                     const error = await response.json();
                     throw new Error(`Error: ${error.detail}`);
                 }
-
+                window.reload()
                 const result = await response.json();
                 console.log(result)
-                alert("")
             } catch (error) {
                 console.error('Error:', error.message);
             }
-        }
+        })
 
-        tonConnectUI.onStatusChange(
-            wallet => { 
-                console.log(wallet)
-                if (wallet && wallet.connectItems?.tonProof && 'proof' in wallet.connectItems.tonProof) {
-                    checkWallet(wallet);
-                }
-            } 
-        );
+        // const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
+        //     manifestUrl: 'https://holey.opolo.me/tonconnect-manifest.json',
+        //     restoreConnection: false
+        // });
+
+        // document.querySelector(".connect-wallet").addEventListener("click", async e => {
+        //     await tonConnectUI.connectWallet();
+        // })
+
+        // tonConnectUI.uiOptions = {
+        //     language: 'en',
+        //     uiPreferences: {
+        //         theme: "DARK"
+        //     }
+        // };
+
+        // console.log(tg.initDataUnsafe.user.id)
+
+        // tonConnectUI.setConnectRequestParameters({
+        //     state: 'ready',
+        //     value: {
+        //         tonProof: tg.initDataUnsafe.user.id + ""
+        //     }
+        // });
+
+        // async function checkWallet(wallet) {
+        //     const url = `/auth/wallet`;
+
+        //     console.log(wallet)
+
+        //     data = {
+        //         "address": wallet.wallet.account.address
+        //     }
+
+        //     try {
+        //         const response = await fetch(url, {
+        //             method: 'POST',
+        //             headers: {
+        //                 'Content-Type': 'application/json'
+        //             },
+        //             body: JSON.stringify(data),
+        //         });
+
+        //         if (!response.ok) {
+        //             const error = await response.json();
+        //             throw new Error(`Error: ${error.detail}`);
+        //         }
+
+        //         const result = await response.json();
+        //         console.log(result)
+        //     } catch (error) {
+        //         console.error('Error:', error.message);
+        //     }
+        // }
+
+        // tonConnectUI.onStatusChange(
+        //     wallet => { 
+        //         console.log(wallet)
+        //         if (wallet && wallet.connectItems?.tonProof && 'proof' in wallet.connectItems.tonProof) {
+        //             checkWallet(wallet);
+        //         }
+        //     } 
+        // );
 
         window.Telegram.WebApp.expand()
 
