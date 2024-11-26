@@ -113,7 +113,7 @@
                 let dice = get_dice(d)
 
                 if (step.stage == 1) { // тосуем кубики в случайном порядке
-                    setInterval(() => {dice.style.backgroundImage = `url('../dices/${dice.dice.glb}/${Math.floor(Math.random() * 5 + 1)}.png')`}, 500)
+                    setInterval(() => {dice.style.backgroundImage = `url('../dices/${dice.dice.glb}/${Math.floor(Math.random() * 5 + 1)}.png')`}, 50)
                 }
                 else {
                     dice.style.backgroundImage = `url('../dices/${dice.dice.glb}/${dice.dice.face}.png')` // здесь определяется лицевая сторона кубика
