@@ -107,8 +107,6 @@
 
         const set_area = () => { // организует отображение кубиков на игровом поле и в трее
             area.innerHTML = ""
-                
-            log(step, state)
 
             state.area.forEach(d => {
 
@@ -279,9 +277,19 @@
         });
 
         handleEvent("message", e => {
+            // "bolt", "barrel", "overtake", "pit"
             if (e.type == "bolt") {
                 message("Оу, кажется это болт!", 1000)
                 setTimeout(() => message("Ход получает следующий игрок!"), 1300)
+            } 
+            if (e.type == "barrel") {
+                message("Это бочка! -60 очков", 1000)
+            } 
+            if (e.type == "overtake") {
+                message("Это обгон! -50 очков", 1000)
+            } 
+            if (e.type == "pit") {
+                message("Из ямы вылезти не вышло...", 1000)
             } 
         });
 
