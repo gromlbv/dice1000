@@ -24,6 +24,39 @@ function removeActiveState(element) {
     element.classList.remove('active');
     
 }
+document.addEventListener("DOMContentLoaded", function () {
+    let diceSelected = [];
+    function removeOld(value) {
+        const sameCheckbox = document.querySelectorAll(`.dice-checkbox[value="${value}"]`);
+        sameCheckbox.forEach(checkbox => {
+            checkbox.checked = false;
+        });
+    }
+    function updateSelectedCheckboxes() {
+        diceSelected = [];
+        const checkboxes = document.querySelectorAll('.dice-checkbox:checked');
+        
+        checkboxes.forEach(checkbox => {
+            diceSelected.push({
+                dice: checkbox.name,
+                whatdice: checkbox.value
+            });
+        });
+
+        console.log(diceSelected);
+    }
+
+    const checkboxes = document.querySelectorAll('.dice-checkbox');
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', function () {
+            if (this.checked) {
+                removeOld(this.value);
+                this.checked = true;
+            }
+            updateSelectedCheckboxes();
+        });
+    });
+});
 
 $(document).ready(function() {
 
@@ -95,11 +128,7 @@ $(document).ready(function() {
     if (skins != null) {
         skins.addEventListener('click', toggleVisibility);
         wallet_bg.addEventListener('click', toggleVisibility);
-        wallet.addEventListener('click', (event) => {
-            if (isClickOnMargin(event, wallet_item)) {
-                toggleVisibility();
-            }
-        });
+
     }
     
     function toggleVisibility() {
@@ -118,10 +147,6 @@ $(document).ready(function() {
                event.clientY < rect.top || event.clientY > rect.bottom;
     }
     
-
-
-    
-
 
     window.Telegram.WebApp.setHeaderColor('bg_color', '#ffffff');
 });

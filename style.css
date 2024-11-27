@@ -277,6 +277,27 @@ flex{
     width: 100%;
     box-sizing: border-box;
 }
+.wallet-item > flex > .item{
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+}
+.wallet-form{
+
+}
+.wallet-form > input{
+    appearance: none; /* Убираем стандартный вид чекбоксов */
+    width: 20px;
+    height: 20px;
+    border: 2px solid #4579FF; /* Добавляем рамку */
+    border-radius: 50%; /* Делаем их круглыми */
+    outline: none;
+    cursor: pointer;
+    position: relative;
+}
+.wallet-form > input:checked{
+    background-color: #4579FF; /* Цвет заполнения при выборе */
+}
 
 /* window 1 */
 
