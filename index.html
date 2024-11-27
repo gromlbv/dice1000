@@ -43,30 +43,16 @@
                         {% if models | length == 0 %}<font>Игровые артефакты не обнаружены</font>{% else %}
                             {% for model in models %}
                                 <div class="item">
-                                    <img style="width: 100px;" src="source/dices/stdDice.png">
-                                    <div>
-                                        <div>Standart dice</div>
-                                        <div>Designed for beginners</div>
-                                        <form class="wallet-form">
-                                            <input type="checkbox" class="dice-checkbox" name="standart" value="1">                                          
-                                            <input type="checkbox" class="dice-checkbox" name="standart" value="2">                                          
-                                            <input type="checkbox" class="dice-checkbox" name="standart" value="3">
-                                            <input type="checkbox" class="dice-checkbox" name="standart" value="4">
-                                            <input type="checkbox" class="dice-checkbox" name="standart" value="5">
-                                        </form>                                          
-                                    </div>
-                                </div>
-                                <div class="item">
                                     <img style="width: 100px;" src="/dices/{{model.glb}}/1.png">
                                     <div>
                                         <div>{{model.title}}</div>
                                         <div>{{model.description}}</div>
                                         <form class="wallet-form">
-                                            <input type="checkbox" class="dice-checkbox" name="mishachangeplz" value="1">                                          
-                                            <input type="checkbox" class="dice-checkbox" name="mishachangeplz" value="2">                                          
-                                            <input type="checkbox" class="dice-checkbox" name="mishachangeplz" value="3">
-                                            <input type="checkbox" class="dice-checkbox" name="mishachangeplz" value="4">
-                                            <input type="checkbox" class="dice-checkbox" name="mishachangeplz" value="5">
+                                            <input type="radio" class="dice-checkbox" name="dice1" value="1">                                          
+                                            <input type="radio" class="dice-checkbox" name="dice2" value="2">                                          
+                                            <input type="radio" class="dice-checkbox" name="dice3" value="3">
+                                            <input type="radio" class="dice-checkbox" name="dice4" value="4">
+                                            <input type="radio" class="dice-checkbox" name="dice5" value="5">
                                         </form>                                          
                                     </div>
                                 </div>
