@@ -59,8 +59,20 @@ $(document).ready(function() {
     $('button').on('mouseup mouseleave touchend', function() {
         removeActiveState(this);
     });
+
+    // $('#show-table').click(function() {
+    //     console.log('aaa')
+    //     $("#show-table").css("transform", "rotate(180deg)");
+    // });
+    const showTableButton = document.querySelector('.show-table');
+    const table = document.querySelector('.table');
+    const mainBar = document.querySelector('.main-bar');
     
-    
+    showTableButton.addEventListener('click', () => {
+        showTableButton.classList.toggle('active');
+        table.classList.toggle('visible');
+        tableElement.classList.toggle('visible');
+    });
     const fadeInElements = document.querySelectorAll(".fade-in");
     function removeShowClass(elements, delay) {
         elements.forEach(function(element, index) {
@@ -107,9 +119,7 @@ $(document).ready(function() {
     }
     
     function isClickOnMargin(event, element) {
-        const rect = element.getBoundingClientRect();
-        console.log("aaaa")
-        
+        const rect = element.getBoundingClientRect();        
         return event.clientX < rect.left || event.clientX > rect.right || 
                event.clientY < rect.top || event.clientY > rect.bottom;
     }

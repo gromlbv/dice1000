@@ -895,6 +895,8 @@ body.game>*{
     display: flex;
     flex-direction: row;
     gap: 3px;
+    
+    width: 85px;
 }
 .player-head-info > div{
     display: flex;
@@ -919,4 +921,65 @@ body.game>*{
 }
 .bolts-wr > img:first-child{
     margin-left: 0;
+}
+
+.table{
+    width: 100%;
+    height: 100%;
+    margin: 20px;
+}
+.table-blur{
+    width: 390px;
+    height: 375px;
+    flex-shrink: 0;
+    
+    background: rgba(255, 255, 255, 0.45);
+    backdrop-filter: blur(5.099999904632568px);
+}
+.table-grid{
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    align-items: left;
+    width: 100%;
+    gap: 8px;
+    /* margin: 20px; */
+}
+.table-item{
+    display: flex;
+    padding: 6px;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    flex: 1 0 0;
+    align-self: stretch;
+    
+    border-radius: 12px;
+    background: #E3EAFF;
+    max-width: 85px;
+}
+
+.table-item > div{
+    display: flex;
+    height: 18px;
+    padding: 1px 4px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    align-self: stretch;
+    
+    border-radius: 6px;
+    background: #FFF;
+}
+.table-item.active{
+    background: #4579FF;
+}
+
+
+.table.visible {
+    display: flex;
+}
+
+.show-table.active {
+    transform: rotate(180deg);
 }

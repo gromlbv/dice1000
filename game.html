@@ -25,7 +25,56 @@
     <title>Game - DICE1000</title>
 </head>
 <body class="game">
-    <div class="head"></div>
+    <div class="head">
+        <div class="player-item active">
+            <div class="pic-div">
+                <img src="source/profile-pic.png">
+            </div>
+            <span>Brain</span>
+            <flex class="player-head-info">
+                <div class="points-wr">640</div>
+            </flex>
+        </div>
+        <div class="player-item">
+            <div class="pic-div">
+                <img src="source/profile-pic.png">
+                <div class="barrel-wr">
+                    <img src="source/icons/barrel-mini.svg">
+                    1
+                </div>
+            </div>
+            <span>Alex</span>
+            <flex class="player-head-info">
+                <div class="points-wr">332</div>
+                <div class="bolts-wr">
+                    <img src="source/icons/bolt.svg">
+                    <img src="source/icons/bolt.svg">
+                    <img src="source/icons/bolt.svg">                    
+                </div>
+            </flex>
+        </div>
+    </div>
+    <img id="show-table" src="source/icons/down.svg">
+    <div class="table">
+        <div class="table-grid">
+            <div class="table-item active">
+                <div>640</div>
+                <div>640</div>
+                <div>640</div>
+                <div>640</div>
+            </div>
+            <div class="table-item">
+                <div>640</div>
+                <div>640</div>
+                <div>640</div>
+                <div>640</div>
+            </div>
+        </div>
+        <div class="table-blur"></div>
+        <button class="primary gradient">Свернуть таблицу</button>
+    </div>
+
+
     <div class="area"></div>
     <div class="bottom-wr">
         <div class="message"></div>
