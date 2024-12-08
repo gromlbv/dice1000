@@ -63,16 +63,7 @@ $(document).ready(function() {
     // $('#show-table').click(function() {
     //     console.log('aaa')
     //     $("#show-table").css("transform", "rotate(180deg)");
-    // });
-    const showTableButton = document.querySelector('.show-table');
-    const table = document.querySelector('.table');
-    const mainBar = document.querySelector('.main-bar');
-    
-    showTableButton.addEventListener('click', () => {
-        showTableButton.classList.toggle('active');
-        table.classList.toggle('visible');
-        tableElement.classList.toggle('visible');
-    });
+    // });  
     const fadeInElements = document.querySelectorAll(".fade-in");
     function removeShowClass(elements, delay) {
         elements.forEach(function(element, index) {
