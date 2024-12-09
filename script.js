@@ -63,7 +63,8 @@ $(document).ready(function() {
     // $('#show-table').click(function() {
     //     console.log('aaa')
     //     $("#show-table").css("transform", "rotate(180deg)");
-    // });  
+    // });
+
     const fadeInElements = document.querySelectorAll(".fade-in");
     function removeShowClass(elements, delay) {
         elements.forEach(function(element, index) {
@@ -118,6 +119,3 @@ $(document).ready(function() {
 
     window.Telegram.WebApp.setHeaderColor('bg_color', '#ffffff');
 });
-
-
-
