@@ -151,15 +151,24 @@ flex{
     box-shadow: 0px 17px 29.5px 0px rgba(255, 255, 255, 0.25) inset;
 }
 .absolute-bottom{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     position: absolute;
+    gap: 16px;
     bottom: 32px;
-    left: 32px;
-    width: calc(100% - 64px);
-}
+    width: calc(100%);
 
+    font-size: 16px;
+    font-weight: 500;
+    color: #4579FF;
+}
+.bottom-ui > span > font{
+    font-weight: 700;
+}
 .dice-absolute{
     position: absolute;
-    z-index: 1000;
+    z-index: 10;
 }
 #dice-loading5{
     padding-top: 95px;
@@ -825,19 +834,31 @@ body.game>*{
     background: #E3EAFF;
 }
 
-.player-item > .pic-div{
+.player-item > .pic-div {
     display: flex;
     align-items: center;
     justify-content: center;
     height: 62px;
     width: 100%;
+    position: relative; /* Добавляем позиционирование для родителя */
 }
-.pic-div > img{
+
+.pic-div > .profile-img {
     width: 62px;
     height: 62px;
     border-radius: 50%;
     padding: 0 6px;
 }
+
+.clever {
+    position: absolute; /* Делаем изображение с клевером поверх */
+    top: 0;
+    left: 0;
+    width: 24px; /* Размер клевера можно настроить */
+    height: 24px;
+    z-index: 20;
+}
+
 .pic-div > .barrel-wr{
     position: absolute;
     margin-top: 40px;
