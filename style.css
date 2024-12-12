@@ -694,6 +694,7 @@ body.game{
     flex-direction: column;
     align-items: center;
     width: 100%;
+    height: 100vh;
 }
 body.game>*{
     max-width: 520px;
@@ -724,7 +725,7 @@ body.game>*{
     gap: 8px;
     
     width: 100%;
-    height: 142px;
+    height: 52px;
 
     border-radius: 12px 12px 0px 0px;
     background: #4579FF;
@@ -741,6 +742,7 @@ body.game>*{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
     gap: 8px;
 
     height: 100%;
@@ -748,35 +750,13 @@ body.game>*{
 }
 .middle-wr > button{
     max-width: 85px;
+    height: 26px;
 }
-.drop-cubes-wr{
-    flex-wrap: nowrap;
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    gap: 5px;
+.all-points{
+    height: 100%;
+    text-align: center;
+    font-size: 24px;
 }
-.drop-cubes{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    gap: 6px;
-}
-.drop-cubes .points{
-    display: flex;
-    padding: 3px 8px 3px 6px;
-    width: fit-content;
-}
-.drop-cubes .cubes{
-    display: flex;
-    height: 52px;
-}
-.drop-cubes .cubes > *{
-    width: 52px;
-}
-
 .white-block {
     color: white;
     border-radius: 4px;
@@ -932,9 +912,8 @@ body.game>*{
     height: 100vh;
 }
 .table-blur{
-    width: 390px;
-    height: 375px;
-    flex-shrink: 0;
+    width: 100%;
+    flex: 1;
     
     background: rgba(255, 255, 255, 0.45);
     backdrop-filter: blur(5.099999904632568px);
@@ -947,6 +926,10 @@ body.game>*{
     width: 100%;
     gap: 8px;
     /* margin: 20px; */
+}
+.table > button{
+    margin: 20px;
+    width: calc(100% - 40px);
 }
 .table-item{
     display: flex;
@@ -996,4 +979,9 @@ body.game>*{
 }
 .show-table.active > img {
     transform: rotate(180deg);
+}
+
+
+.displaynone{
+    display: none;
 }

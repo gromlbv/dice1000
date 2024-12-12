@@ -63,7 +63,7 @@
                 <div>640</div>
                 <div>640</div>
                 <div>640</div>
-                <div>640</div>
+                <div>640</div>  
             </div>
             <div class="table-item">
                 <div>640</div>
@@ -83,23 +83,20 @@
         <div class="main-bar">
             <div class="middle-wr">
                 <button class="white-block" id="more">Еще</button>
-                <div class="drop-cubes-wr"></div>
+                <span>14 + 412 = 444</span>
                 <button id="stop" class="white-block">Все</button>
-            </div>
-            <div class="player-info">
-                <div class="points white-block">
-                    <font class="previous"></font>
-                </div>
             </div>
         </div>
     </div>
     <div class="home"></div>
     <script>
-        const mainBar = document.querySelector('.main-bar');
-        $('#show-table').click(function() {
-            document.querySelector('.show-table').classList.toggle('active');
-            document.querySelector('.table').classList.toggle('visible');
+        $('#show-table, .table-blur').click(function() {
+            $('.show-table').toggleClass('active');
+            $('.table').toggleClass('visible');
+            $('.area').toggleClass('displaynone');
+            $('.bottom-wr').toggleClass('displaynone');
         });
+
     </script>
     <script src="../message.js"></script>
     <script src="../dices.js"></script>
