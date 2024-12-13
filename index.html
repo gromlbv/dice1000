@@ -101,27 +101,41 @@
     </div>
     <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
     <script>
+        const tg = window.Telegram.WebApp
+        const log = console.log
 
-        // const afetch = (input, body = {}) => {
-        //     return fetch(input, {method: 'POST', body: JSON.stringify(body)})
-        // }
+        const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
+            manifestUrl: `https://${window.location.host}/tonconnect-manifest.json`,
+            restoreConnection: false
+        });
 
-        // const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
-        //     manifestUrl: 'https://holey.opolo.me/tonconnect-manifest.json'
-        // });
-        // 
-
-        let tg = window.Telegram.WebApp;
-        
         document.querySelector(".connect-wallet").addEventListener("click", async e => {
-            const url = `/auth/wallet`;
-    
-            wallet = prompt("Enter your token")
-    
-            data = {
-                "address": wallet
+            await tonConnectUI.connectWallet();
+        })
+
+        tonConnectUI.uiOptions = {
+            language: 'en',
+            uiPreferences: {
+                theme: "DARK"
             }
-    
+        };
+
+        tonConnectUI.setConnectRequestParameters({
+            state: 'ready',
+            value: {
+                tonProof: tg.initDataUnsafe.user.id + ""
+            }
+        });
+
+        async function checkWallet(wallet) {
+            const url = `/auth/wallet`;
+
+            console.log(wallet)
+
+            data = {
+                "address": wallet.wallet.account.address
+            }
+
             try {
                 const response = await fetch(url, {
                     method: 'POST',
@@ -130,82 +144,27 @@
                     },
                     body: JSON.stringify(data),
                 });
-    
+
                 if (!response.ok) {
                     const error = await response.json();
                     throw new Error(`Error: ${error.detail}`);
                 }
-                window.reload()
+
                 const result = await response.json();
                 console.log(result)
             } catch (error) {
                 console.error('Error:', error.message);
             }
-        })
+        }
 
-        // const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
-        //     manifestUrl: 'https://holey.opolo.me/tonconnect-manifest.json',
-        //     restoreConnection: false
-        // });
-
-        // document.querySelector(".connect-wallet").addEventListener("click", async e => {
-        //     await tonConnectUI.connectWallet();
-        // })
-
-        // tonConnectUI.uiOptions = {
-        //     language: 'en',
-        //     uiPreferences: {
-        //         theme: "DARK"
-        //     }
-        // };
-
-        // console.log(tg.initDataUnsafe.user.id)
-
-        // tonConnectUI.setConnectRequestParameters({
-        //     state: 'ready',
-        //     value: {
-        //         tonProof: tg.initDataUnsafe.user.id + ""
-        //     }
-        // });
-
-        // async function checkWallet(wallet) {
-        //     const url = `/auth/wallet`;
-
-        //     console.log(wallet)
-
-        //     data = {
-        //         "address": wallet.wallet.account.address
-        //     }
-
-        //     try {
-        //         const response = await fetch(url, {
-        //             method: 'POST',
-        //             headers: {
-        //                 'Content-Type': 'application/json'
-        //             },
-        //             body: JSON.stringify(data),
-        //         });
-
-        //         if (!response.ok) {
-        //             const error = await response.json();
-        //             throw new Error(`Error: ${error.detail}`);
-        //         }
-
-        //         const result = await response.json();
-        //         console.log(result)
-        //     } catch (error) {
-        //         console.error('Error:', error.message);
-        //     }
-        // }
-
-        // tonConnectUI.onStatusChange(
-        //     wallet => { 
-        //         console.log(wallet)
-        //         if (wallet && wallet.connectItems?.tonProof && 'proof' in wallet.connectItems.tonProof) {
-        //             checkWallet(wallet);
-        //         }
-        //     } 
-        // );
+        tonConnectUI.onStatusChange(
+            wallet => { 
+                console.log(wallet)
+                if (wallet && wallet.connectItems?.tonProof && 'proof' in wallet.connectItems.tonProof) {
+                    checkWallet(wallet);
+                }
+            } 
+        );
 
         window.Telegram.WebApp.expand()
 
