@@ -13,21 +13,21 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
     <title>Loading - DICE1000</title>
 </head>
 <body>
     <div class="wrapper fade-in priority-1">
-        <img id="dice-loading2" class="dice-absolute fade-in priority-2 interactive" src="source/dices/2.png">
+        <img id="dice-loading2" class="dice-absolute fade-in priority-2 interactive" src="../source/dices/2.png">
         <div class="loading-flex">
-            <img class="clower" src="source/icons/clower.png">
-            <img src="source/profile-pic.png" class="interactive">
-            <img id="dice-loading1" class="dice-absolute interactive" src="source/dices/1.png">
-            <img id="dice-loading5" class="dice-absolute interactive" src="source/dices/5.png">
+            <img src="../source/profile-pic.png" class="interactive">
+            <img id="dice-loading1" class="dice-absolute interactive" src="../source/dices/1.png">
+            <img id="dice-loading5" class="dice-absolute interactive" src="../source/dices/5.png">
             <flex class="text-flex">
                 <h1 id="test">Добро пожаловать</h1>
                 
@@ -47,23 +47,47 @@
             <span>Награда появится через <font>{{time_left}}</font>
             </span>
             <div onclick="Loaded()" class="secondary fade-in priority-3 interactive" style="width: calc(100% - 96px);">
-                <img src="source/icons/shovel.svg">
+                <img src="../source/icons/shovel.svg">
                 Заходи к нам каждый день и получай бесплатные фишки
             </div>
-            if else micha please commit
             <div onclick="Loaded()" class="primary gradient priority-3 interactive" style="width: calc(100% - 96px);">
                 Забрать награду
             </div>
         </div>
 
     </div>
-    <script src="script.js"></script>
+    <script src="../script.js"></script>
     <script>
         function Loaded(){
-            setTimeout(function() {
-            window.location.href = "game.html";
-            }, 2000);
+            // setTimeout(function() {
+            // window.location.href = "game.html";
+            // }, 2000);
         }
+        
+        window.Telegram.WebApp.expand()
+        
+        const main = async () => {
+            data = await fetch("/auth", {method: "POST", body: window.Telegram.WebView.initParams.tgWebAppData})
+            setTimeout(() => {
+                document.querySelector(".name").innerText = ', ' + window.Telegram.WebApp.initDataUnsafe.user.first_name
+                document.querySelector(".name").style.opacity = 1
+            }, 200)
+
+            setTimeout(async () => {
+                if (data.status == 200){
+                    window.location.href = "/{{redirect}}"
+                }
+                if (data.status == 401){
+                    document.querySelector(".message").innerText = await data.text()
+                    document.querySelector(".message").style.opacity = 1
+                }
+                if (data.status == 500){
+                    document.querySelector(".message").innerText = "Кажется на сервере возникла внеплановая ошибка..."
+                    document.querySelector(".message").style.opacity = 1
+                }
+            }, 800)
+        }
+        main()
     </script>
 </body>
 </html>
