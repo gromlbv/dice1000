@@ -47,19 +47,19 @@
                                     <div>
                                         <div>{{model.title}}</div>
                                         <div>{{model.description}}</div>
-                                        <form class="wallet-form">
-                                            <input type="radio" class="dice-checkbox" name="dice1" value="1">                                          
-                                            <input type="radio" class="dice-checkbox" name="dice2" value="2">                                          
+                                        <div class="wallet-form">
+                                            <input type="radio" class="dice-checkbox" name="dice1" value="1">
+                                            <input type="radio" class="dice-checkbox" name="dice2" value="2">
                                             <input type="radio" class="dice-checkbox" name="dice3" value="3">
                                             <input type="radio" class="dice-checkbox" name="dice4" value="4">
                                             <input type="radio" class="dice-checkbox" name="dice5" value="5">
-                                        </form>                                          
+                                        </div>
                                     </div>
                                 </div>
                             {% endfor %}
                         {% endif %}
                     </flex>
-                    <button class="primary gradient" onclick="fetch('/auth/wallet',  {method: 'POST', body: '{}'}); tonConnectUI.disconnect(); window.location.reload();">Отключить Кошелек</button>
+                    <button class="primary gradient" onclick="fetch('/auth/wallet/disconnect',  {method: 'POST', body: '{}'}); tonConnectUI.disconnect(); window.location.reload();">Отключить Кошелек</button>
                 </div>
             {% endif %}
         </div>
@@ -108,18 +108,15 @@
             manifestUrl: `https://${window.location.host}/tonconnect-manifest.json`,
             restoreConnection: false
         });
-
         document.querySelector(".connect-wallet").addEventListener("click", async e => {
             await tonConnectUI.connectWallet();
         })
-
         tonConnectUI.uiOptions = {
             language: 'en',
             uiPreferences: {
                 theme: "DARK"
             }
         };
-
         tonConnectUI.setConnectRequestParameters({
             state: 'ready',
             value: {
@@ -130,25 +127,20 @@
         async function checkWallet(wallet) {
             const url = `/auth/wallet`;
 
-            console.log(wallet)
-
-            data = {
-                "address": wallet.wallet.account.address
-            }
-
             try {
                 const response = await fetch(url, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify(data),
+                    body: JSON.stringify(wallet),
                 });
 
                 if (!response.ok) {
                     const error = await response.json();
                     throw new Error(`Error: ${error.detail}`);
-                }
+                } 
+                else window.location.reload()
 
                 const result = await response.json();
                 console.log(result)
