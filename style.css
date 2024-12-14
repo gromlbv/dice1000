@@ -850,15 +850,17 @@ body.game>*{
     padding: 0 6px;
 }
 
-.clever {
-    position: absolute; /* Делаем изображение с клевером поверх */
+.clower {
+    position: absolute;
     top: 0;
     left: 0;
-    width: 24px; /* Размер клевера можно настроить */
-    height: 24px;
+    width: 24px !important;
     z-index: 20;
 }
-
+.loading-flex .clower{
+  width: 70px !important;
+  left: 40px;
+}
 .pic-div > .barrel-wr{
     position: absolute;
     margin-top: 40px;
