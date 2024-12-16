@@ -76,11 +76,11 @@
 
             document.querySelector(".avatar").src = window.Telegram.WebApp.initDataUnsafe.user.photo_url
 
-            if (localStorage.getItem("giftTime") == null) {
+            if (localStorage.getItem("daily_reward_date") == null) {
                 document.querySelector(".giftTime").style.display = 'none'
             }
             else {
-                let times = timeUntil(parseInt(localStorage.getItem("giftTime")))
+                let times = timeUntil(parseInt(localStorage.getItem("daily_reward_date")))
                 if (times[1] >= 0) {
                     document.querySelector(".giftTime").querySelector("font").innerText = `${times[0]}ч ${times[1]}мин`
                 }
@@ -106,7 +106,7 @@
                     document.querySelector(".message").innerText = "Кажется на сервере возникла внеплановая ошибка..."
                     document.querySelector(".message").style.opacity = 1
                 }
-            }, 800)
+            }, 1200)
         }
         main()
     </script>

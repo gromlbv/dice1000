@@ -104,6 +104,8 @@
         const tg = window.Telegram.WebApp
         const log = console.log
 
+        localStorage.setItem("daily_reward_date", "{{datetimeToInt(client.daily_reward_date)}}")
+
         const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
             manifestUrl: `https://${window.location.host}/tonconnect-manifest.json`,
             restoreConnection: false
