@@ -33,10 +33,10 @@
             </button>
             <flex class="header-user">
                 <flex>
-                    <div class="data-username">Username</div>
-                    <div class="data-balance">150 $CHIP</div>
+                    <div class="data-username">{{client.first_name}}</div>
+                    <div class="data-balance">{{client.balance}} $CHIP</div>
                 </flex>
-                <img src="source/profile-pic.png">
+                <img src="{{client.avatar}}">
             </flex>
         </flex>
         <flex class="bonuses-wrapper">

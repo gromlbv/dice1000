@@ -87,7 +87,7 @@ $(document).ready(function() {
     });
     $('#bonus-redirect').click(function() {
         removeShowClass(fadeInElements, 100);
-        window.location.href = 'bonus.html';
+        window.location.href = '/bonus';
     });
 
     const skins = document.getElementById('skins');
