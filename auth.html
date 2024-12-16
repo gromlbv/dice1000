@@ -26,7 +26,7 @@
         <img id="dice-loading2" class="dice-absolute fade-in priority-2 interactive" src="../source/dices/2.png">
         <div class="loading-flex">
             <img class="clower" src="source/icons/clower.png">
-            <img src="../source/profile-pic.png" class="interactive">
+            <img src="../source/profile-pic.png" class="avatar interactive">
             <img id="dice-loading1" class="dice-absolute interactive" src="../source/dices/1.png">
             <img id="dice-loading5" class="dice-absolute interactive" src="../source/dices/5.png">
             <flex class="text-flex">
@@ -45,15 +45,15 @@
             </flex>
         </div>
         <div class="bottom-ui absolute-bottom">
-            <span>Награда появится через <font>{{time_left}}</font>
+            <span class="giftTime">Награда появится через <font></font>
             </span>
             <div onclick="Loaded()" class="secondary fade-in priority-3 interactive" style="width: calc(100% - 96px);">
                 <img src="../source/icons/shovel.svg">
                 Заходи к нам каждый день и получай бесплатные фишки
             </div>
-            <div onclick="Loaded()" class="primary gradient priority-3 interactive" style="width: calc(100% - 96px);">
+            <!-- <div onclick="Loaded()" class="primary gradient priority-3 interactive" style="width: calc(100% - 96px);">
                 Забрать награду
-            </div>
+            </div> -->
         </div>
 
     </div>
@@ -64,10 +64,30 @@
             // window.location.href = "game.html";
             // }, 2000);
         }
+        function timeUntil(timestamp) {
+            const now = Date.now();
+            let diff = Math.floor(timestamp - now / 1000);
         
+            return [Math.floor(diff / 3600), Math.floor((diff % 3600) / 60)];
+        }
         window.Telegram.WebApp.expand()
         
         const main = async () => {
+
+            document.querySelector(".avatar").src = window.Telegram.WebApp.initDataUnsafe.user.photo_url
+
+            if (localStorage.getItem("giftTime") == null) {
+                document.querySelector(".giftTime").style.display = 'none'
+            }
+            else {
+                let times = timeUntil(parseInt(localStorage.getItem("giftTime")))
+                if (times[1] >= 0) {
+                    document.querySelector(".giftTime").querySelector("font").innerText = `${times[0]}ч ${times[1]}мин`
+                }
+                else document.querySelector(".giftTime").innerText = `Можно забрать награду!`
+            }
+
+
             data = await fetch("/auth", {method: "POST", body: window.Telegram.WebView.initParams.tgWebAppData})
             setTimeout(() => {
                 document.querySelector(".name").innerText = ', ' + window.Telegram.WebApp.initDataUnsafe.user.first_name
